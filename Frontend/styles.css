@@ -1,0 +1,14 @@
+body {
+    font-family: 'Juventus Fans Bold', sans-serif;
+    margin: 0px;
+}
+
+.navbar {
+    padding: 20px;
+}
+
+.navbar-left img {
+    width: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
