@@ -1,14 +1,258 @@
+/* Cambiar el color del fondo */
 body {
-    font-family: 'Juventus Fans Bold', sans-serif;
-    margin: 0px;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
 }
 
-.navbar {
+/* Estilos para la sección de inicio de sesión */
+.inicio-sec {
+    display: flex;
+    width: 90%;
+    max-width: 1000px;
+    height: 500px;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el lado izquierdo */
+.left-side {
+    background-color: #4CAF50;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Estilos para el lado derecho */
+.right-side {
+    background-color: #333;
+    color: white;
+    flex: 2;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.navbar-left img {
-    width: 100px;
+.logo {
+    max-width: 100%;
+    height: auto;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-btn {
+    background-color: #4CAF50;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.register-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+/* Estilos para la sección de registro de información */
+.registro-sec {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px auto;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.registro-sec h2 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.registro-sec form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.registro-sec label {
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.registro-sec input[type="email"],
+.registro-sec input[type="password"],
+.registro-sec input[type="file"] {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.registro-sec button.submit-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.registro-sec button.submit-btn:hover {
+    background-color: #45a049;
+}
+
+/* Estilos para el contenedor circular de la imagen */
+.image-preview {
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
+    overflow: hidden;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
+}
+
+.image-preview img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+}
+
+/* Estilos para la sección web */
+.web-sec {
+    display: none;
+    width: 90%;
+    max-width: 1200px;
+    height: 600px;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el lado izquierdo de la sección web */
+.web-left-side {
+    background-color: #333;
+    color: white;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.web-left-side .web-imagen {
+    background-color: #fff;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 60px;
+    border: 2px solid #ddd;
+}
+
+.web-left-side .web-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.web-left-side button {
+    margin-bottom: 30px;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.perfil-btn, .aportaciones-btn, .casilleros-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+}
+
+.perfil-btn:hover, .aportaciones-btn:hover, .casilleros-btn:hover {
+    background-color: #45a049;
+}
+
+.logout-btn {
+    width: 40%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #f44336;
+}
+
+.logout-btn:hover {
+    background-color: #d32f2f;
+}
+
+
+/* Estilos para el lado derecho de la sección web */
+.web-right-side {
+    background-color: #fff;
+    flex: 3;
+    padding: 20px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+
+/* Ocultar secciones adicionales en el lado derecho */
+.aportaciones-sec {
+    display: none;
+}
+
+.casilleros-sec {
+    display: none;
+}
+
+.perfil-sec {
+    display: none;
 }
