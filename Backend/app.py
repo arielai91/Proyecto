@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify, send_from_directory
 from flask_mail import Mail, Message
+from flask_cors import CORS
 import random
-import os
 
 app = Flask(__name__)
+CORS(app)  # Habilitar CORS para todas las rutas
+
 app.secret_key = 'your_secret_key'
 
 # Configuración de Flask-Mail
