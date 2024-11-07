@@ -11,7 +11,7 @@ body {
 
 /* Estilos para la sección de inicio de sesión */
 .inicio-sec {
-    display: flex;
+    display: none;
     width: 90%;
     max-width: 1000px;
     height: 500px;
@@ -84,38 +84,43 @@ button {
     color: white;
 }
 
-/* Estilos para la sección de registro de información */
+/* Estilos para la sección de registro */
 .registro-sec {
     display: none;
-    flex-direction: column;
-    align-items: center;
     background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 10px;
     padding: 20px;
+    border-radius: 10px;
     margin: 20px auto;
     width: 80%;
     max-width: 600px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Centrar el contenido */
 }
 
 .registro-sec h2 {
     color: #333;
-    text-align: center;
     margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
 }
 
 .registro-sec form {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 }
 
 .registro-sec label {
     margin-bottom: 5px;
     color: #555;
+    font-weight: bold;
+    width: 100%;
+    max-width: 400px;
+    text-align: left;
 }
 
+.registro-sec input[type="text"],
 .registro-sec input[type="email"],
 .registro-sec input[type="password"],
 .registro-sec input[type="file"] {
@@ -125,6 +130,29 @@ button {
     border-radius: 5px;
     width: 100%;
     max-width: 400px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.registro-sec input[type="file"] {
+    padding: 5px;
+}
+
+.registro-sec .image-preview {
+    margin-top: 10px;
+    width: 150px;
+    height: 150px;
+    text-align: center;
+    border-radius: 50%; /* Hacer el contenedor circular */
+    overflow: hidden; /* Asegurar que la imagen no se salga del contenedor */
+    border: 1px solid #ccc;
+    margin-bottom: 20px; /* Añadir margen inferior para separar del botón */
+}
+
+.registro-sec .image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Asegurar que la imagen se ajuste al contenedor */
 }
 
 .registro-sec button.submit-btn {
@@ -135,29 +163,14 @@ button {
     color: white;
     cursor: pointer;
     transition: background-color 0.3s;
+    font-size: 16px;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 20px; /* Añadir margen superior para separar del resto del formulario */
 }
 
 .registro-sec button.submit-btn:hover {
     background-color: #45a049;
-}
-
-/* Estilos para el contenedor circular de la imagen */
-.image-preview {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f9f9f9;
-}
-
-.image-preview img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
 }
 
 /* Estilos para la sección web */
@@ -255,4 +268,65 @@ button {
 
 .perfil-sec {
     display: none;
+}
+
+
+/* Estilos para el modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Estilos para la barra de notificación */
+.notification-bar {
+    display: none;
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50; /* Verde */
+    color: white;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.notification-bar.success {
+    background-color: #4CAF50; /* Verde */
+}
+
+.notification-bar.error {
+    background-color: #f44336; /* Rojo */
 }
