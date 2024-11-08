@@ -1,6 +1,6 @@
+// uploadRoutes.js
 const express = require("express");
 const UploadController = require("../controllers/uploadController");
-const upload = require("../awsConfig"); // Importar la configuración de AWS
 
 class UploadRoutes {
   constructor() {
@@ -10,10 +10,9 @@ class UploadRoutes {
   }
 
   initializeRoutes() {
-    this.router.post("/upload", upload.single("imagen"), (req, res) =>
-      this.controller.uploadImage(req, res)
-    );
+    this.router.post("/upload", (req, res) => this.controller.upload(req, res));
   }
 }
 
-module.exports = UploadRoutes;
+const uploadRoutes = new UploadRoutes();
+module.exports = uploadRoutes.router;

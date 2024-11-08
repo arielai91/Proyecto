@@ -1,3 +1,4 @@
+// casilleroRoutes.js
 const express = require("express");
 const CasilleroController = require("../controllers/casilleroController");
 
@@ -9,11 +10,11 @@ class CasilleroRoutes {
   }
 
   initializeRoutes() {
-    // Ruta para registrar un nuevo perfil
     this.router.post("/register", (req, res) =>
       this.controller.create(req, res)
     );
   }
 }
 
-module.exports = CasilleroRoutes;
+const casilleroRoutes = new CasilleroRoutes();
+module.exports = casilleroRoutes.router;

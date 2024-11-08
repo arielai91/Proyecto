@@ -16,4 +16,5 @@ class PerfilRoutes {
   }
 }
 
-module.exports = PerfilRoutes;
+const perfilRoutes = new PerfilRoutes();
+module.exports = perfilRoutes.router;

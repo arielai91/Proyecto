@@ -11,23 +11,21 @@ class Server {
   constructor() {
     this.app = express();
     this.port = 3000;
+
+    // Instanciar rutas
+    this.perfilRoutes = PerfilRoutes;
+    this.casilleroRoutes = CasilleroRoutes;
+    this.planRoutes = PlanRoutes;
+    this.uploadRoutes = UploadRoutes;
+
     this.connectToDatabase();
     this.initializeMiddlewares();
     this.initializeRoutes();
-
-    // Instanciar rutas
-    this.perfilRoutes = new PerfilRoutes();
-    this.casilleroRoutes = new CasilleroRoutes();
-    this.planRoutes = new PlanRoutes();
-    this.uploadRoutes = new UploadRoutes();
   }
 
   connectToDatabase() {
     mongoose
-      .connect("mongodb://localhost:27017/AEIS", {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      })
+      .connect("mongodb://localhost:27017/AEIS")
       .then(() => {
         console.log("Conectado a MongoDB");
         this.startServer();
@@ -54,10 +52,10 @@ class Server {
 
   initializeRoutes() {
     // Usar rutas
-    this.app.use("/perfiles", this.perfilRoutes.router);
-    this.app.use("/casilleros", this.casilleroRoutes.router);
-    this.app.use("/planes", this.planRoutes.router);
-    this.app.use("/upload", this.uploadRoutes.router);
+    this.app.use("/perfiles", this.perfilRoutes);
+    this.app.use("/casilleros", this.casilleroRoutes);
+    this.app.use("/planes", this.planRoutes);
+    this.app.use("/upload", this.uploadRoutes);
   }
 
   startServer() {
