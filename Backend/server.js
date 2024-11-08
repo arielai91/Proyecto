@@ -1,52 +1,68 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const app = express();
-const port = 3000;
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const path = require("path");
+const PerfilRoutes = require("./routes/perfilRoutes");
+const CasilleroRoutes = require("./routes/casilleroRoutes");
+const PlanRoutes = require("./routes/planRoutes");
+const UploadRoutes = require("./routes/uploadRoutes");
 
-// Middleware para parsear JSON
-app.use(express.json());
+class Server {
+  constructor() {
+    this.app = express();
+    this.port = 3000;
 
-// Conexión a MongoDB
-mongoose.connect('mongodb://localhost:27017/AEIS', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => {
-    console.log('Conectado a MongoDB');
-}).catch(err => {
-    console.error('Error al conectar a MongoDB', err);
-});
+    // Instanciar rutas
+    this.perfilRoutes = PerfilRoutes;
+    this.casilleroRoutes = CasilleroRoutes;
+    this.planRoutes = PlanRoutes;
+    this.uploadRoutes = UploadRoutes;
 
-// Ruta para la raíz
-app.get('/', (req, res) => {
-    res.send('Servidor funcionando');
-});
+    this.connectToDatabase();
+    this.initializeMiddlewares();
+    this.initializeRoutes();
+  }
 
-// Ruta para listar las bases de datos
-app.get('/databases', async (req, res) => {
-    try {
-        const admin = mongoose.connection.db.admin();
-        const result = await admin.listDatabases();
-        console.log('Bases de datos en el servidor:', result.databases.map(db => db.name));
-        res.json(result.databases);
-    } catch (err) {
-        console.error('Error al listar bases de datos', err);
-        res.status(500).send('Error al listar bases de datos');
-    }
-});
+  connectToDatabase() {
+    mongoose
+      .connect("mongodb://localhost:27017/AEIS")
+      .then(() => {
+        console.log("Conectado a MongoDB");
+        this.startServer();
+      })
+      .catch((err) => {
+        console.error("No se pudo conectar a MongoDB", err);
+        process.exit(1); // Salir del proceso si no se puede conectar a la base de datos
+      });
+  }
 
-// Ruta para listar las colecciones de la base de datos AEIS
-app.get('/collections', async (req, res) => {
-    try {
-        const collections = await mongoose.connection.db.listCollections().toArray();
-        console.log('Colecciones en la base de datos AEIS:', collections.map(col => col.name));
-        res.json(collections);
-    } catch (err) {
-        console.error('Error al listar colecciones', err);
-        res.status(500).send('Error al listar colecciones');
-    }
-});
+  initializeMiddlewares() {
+    // Habilitar CORS para todas las rutas
+    this.app.use(cors());
 
-// Iniciar el servidor
-app.listen(port, () => {
-    console.log(`Servidor escuchando en http://localhost:${port}`);
-});
+    // Middleware para parsear JSON
+    this.app.use(express.json());
+
+    // Middleware para parsear URL-encoded data
+    this.app.use(express.urlencoded({ extended: true }));
+
+    // Middleware para servir archivos estáticos
+    this.app.use(express.static(path.join(__dirname, "public")));
+  }
+
+  initializeRoutes() {
+    // Usar rutas
+    this.app.use("/perfiles", this.perfilRoutes);
+    this.app.use("/casilleros", this.casilleroRoutes);
+    this.app.use("/planes", this.planRoutes);
+    this.app.use("/upload", this.uploadRoutes);
+  }
+
+  startServer() {
+    this.app.listen(this.port, () => {
+      console.log(`Servidor escuchando en http://localhost:${this.port}`);
+    });
+  }
+}
+
+new Server();

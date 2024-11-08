@@ -11,7 +11,7 @@ body {
 
 /* Estilos para la sección de inicio de sesión */
 .inicio-sec {
-    display: flex;
+    display: none;
     width: 90%;
     max-width: 1000px;
     height: 500px;
@@ -86,6 +86,7 @@ button {
 
 /* Estilos para la sección de registro */
 .registro-sec {
+    display: none;
     background-color: #f9f9f9;
     padding: 20px;
     border-radius: 10px;
