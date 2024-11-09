@@ -1,31 +1,32 @@
 const mongoose = require("mongoose");
 
-const casilleroSchema = new mongoose.Schema({
-  numero: {
-    type: Number,
-    required: true,
-    unique: true,
+const casilleroSchema = new mongoose.Schema(
+  {
+    numero: {
+      type: Number,
+      required: true,
+      unique: true,
+    },
+    ubicacion: {
+      type: String,
+      required: true,
+    },
+    estado: {
+      type: String,
+      enum: ["disponible", "ocupado"],
+      default: "disponible",
+    },
+    perfil: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "perfils",
+    },
   },
-  ubicacion: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  perfil: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Perfil",
-    required: true,
-  },
-  estado: {
-    type: String,
-    enum: ["Disponible", "Ocupado", "En mantenimiento"],
-    default: "Disponible",
-  },
-  fechaAsignacion: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  { timestamps: true }
+);
 
-const casillero = mongoose.model("Casillero", casilleroSchema);
-module.exports = casillero;
+casilleroSchema.index({ numero: 1 }, { unique: true, background: true });
+casilleroSchema.index({ perfil: 1 }, { background: true });
+
+const Casillero = mongoose.model("Casillero", casilleroSchema);
+
+module.exports = Casillero;
