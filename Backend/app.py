@@ -12,6 +12,7 @@ app.secret_key = 'your_secret_key'
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
 app.config['MAIL_USERNAME'] = 'jostingamer98@gmail.com'
 app.config['MAIL_PASSWORD'] = 'crtr etze hpnc ikcn'
 
@@ -21,7 +22,7 @@ verification_codes = {}
 
 @app.route('/')
 def index():
-    return send_from_directory('../Frontend', 'index.html')
+    return send_from_directory('../Frontend/html', 'registro.html')
 
 @app.route('/send_code', methods=['POST'])
 def send_code():
@@ -35,8 +36,9 @@ def send_code():
 
 @app.route('/verify_code', methods=['POST'])
 def verify_code():
-    email = request.json['email']
-    code = request.json['code']
+    data = request.json
+    email = data['email']
+    code = data['code']
     if email in verification_codes and verification_codes[email] == code:
         return jsonify({'message': 'Verification successful!'}), 200
     else:

@@ -1,0 +1,351 @@
+:root {
+    --primary: #00c37b;
+    --primary-hover: #00a669;
+    --dark: #121119;
+    --light: #e9eae4;
+    --gray: #3e3c3d;
+    --black: #000000;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background-color: var(--light);
+    min-height: 100vh;
+}
+
+/* Navbar Styles */
+nav {
+    background-color: var(--dark);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    box-shadow: var(--shadow);
+}
+
+.logo_aeis {
+    width: 50px;
+    height: 50px;
+    background-image: url("../content/logo_aeis.png");
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo_aeis {
+    width: 50px;
+    height: 50px;
+    background-color: var(--primary);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.brand-name {
+    color: var(--light);
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 10px;
+}
+
+.salir-btn {
+    color: var(--light);
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+/* Main Layout */
+main {
+    display: flex;
+    padding: 2rem;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.profile-card {
+    background-color: var(--dark);
+    padding: 2rem;
+    border-radius: 16px;
+    color: var(--light);
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+.profile-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1.5rem;
+}
+
+.profile-pic {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--primary);
+    position: relative;
+}
+
+.change-photo-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.profile-container:hover .change-photo-overlay {
+    opacity: 1;
+}
+
+.change-photo-btn {
+    color: white;
+    cursor: pointer;
+}
+
+/* Menu Buttons */
+.menu {
+    background-color: var(--dark);
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+}
+
+.menu button {
+    width: 100%;
+    padding: 1rem;
+    margin: 0.75rem 0;
+    background-color: transparent;
+    color: var(--light);
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.menu button:hover {
+    background-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+/* Content Area */
+.content {
+    flex: 1;
+    background-color: white;
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+}
+
+.panel {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.panel.active {
+    display: block;
+}
+
+/* Plan Cards */
+.plan-card {
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 1rem;
+    border-left: 4px solid var(--primary);
+}
+
+.plan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.plan-price {
+    font-size: 1.5rem;
+    color: var(--primary);
+    font-weight: bold;
+}
+
+.plan-benefits ul {
+    list-style: none;
+    margin-top: 1rem;
+}
+
+.plan-benefits li {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.plan-benefits li::before {
+    content: '✓';
+    color: var(--primary);
+    position: absolute;
+    left: 0;
+}
+
+/* Planes Disponibles */
+.planes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.plan-option {
+    background-color: white;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
+}
+
+.plan-option.featured {
+    border: 2px solid var(--primary);
+    transform: scale(1.05);
+}
+
+.aportar-btn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+/* Casillero Styles */
+.casillero-display {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.numero-casillero {
+    font-size: 4rem;
+    color: var(--primary);
+    font-weight: bold;
+    margin: 1rem 0;
+}
+
+.casilleros-grid {
+    display: grid;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: var(--shadow);
+}
+
+.close-modal {
+    position: absolute;
+    right: 1.5rem;
+    top: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--gray);
+}
+
+/* Profile Image Styles */
+.profile-pic img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--gray);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.save-btn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.save-btn:hover {
+    background-color: var(--primary-hover);
+}

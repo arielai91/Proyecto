@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style_usuario.css">
+    <title>Página de Usuario - APORTACIONES AEIS</title>
+</head>
+<body>
+<nav>
+    <div class="nav-left">
+        <div class="logo_aeis">
+        </div>
+        <span class="brand-name">AEIS</span>
+    </div>
+    <a href="index.html" class="salir-btn">Salir</a>
+</nav>
+
+<main>
+    <div class="sidebar">
+        <div class="profile-card">
+            <div class="profile-container">
+                <div class="profile-pic">
+                    <img src="../content/logo_aeis.png" alt="Profile Picture" id="profile-image">
+                    <div class="change-photo-overlay">
+                        <label for="photo-upload" class="change-photo-btn">
+                            <i class="fas fa-camera"></i>
+                        </label>
+                        <input type="file" id="photo-upload" hidden accept="image/*">
+                    </div>
+                </div>
+            </div>
+            <div class="profile-info">
+                <h3>Juan Pérez</h3>
+                <p>Cédula: 123456789</p>
+                <p>Correo: juan.perez@example.com</p>
+            </div>
+            <button class="change-password-btn" onclick="togglePasswordModal()">Cambiar Contraseña</button>
+        </div>
+        <div class="menu">
+            <button onclick="showPanel('plan-actual')"><span>Plan Actual</span></button>
+            <button onclick="showPanel('planes-disponibles')"><span>Planes Disponibles</span></button>
+            <button onclick="showPanel('casillero')"><span>Casillero</span></button>
+            <button onclick="showPanel('solicitudes')"><span>Solicitudes</span></button>
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- Panel Plan Actual -->
+        <div id="plan-actual" class="panel active">
+            <h2>Plan Actual</h2>
+            <div class="plan-card">
+                <div class="plan-header">
+                    <h3>Plan Premium</h3>
+                    <span class="plan-price">$50/mes</span>
+                </div>
+                <div class="plan-benefits">
+                    <h4>Beneficios Incluidos:</h4>
+                    <ul>
+                        <li>Acceso completo a instalaciones</li>
+                        <li>Casillero incluido</li>
+                        <li>Eventos exclusivos</li>
+                        <li>Descuentos especiales</li>
+                    </ul>
+                </div>
+                <div class="plan-status">
+                    <p>Estado: <span class="status-active">Activo</span></p>
+                    <p>Próximo pago: 01/02/2024</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel Planes Disponibles -->
+        <div id="planes-disponibles" class="panel">
+            <h2>Planes Disponibles</h2>
+            <div class="planes-grid">
+                <div class="plan-option">
+                    <h3>Plan Básico</h3>
+                    <p class="price">$30/mes</p>
+                    <ul>
+                        <li>Acceso básico a instalaciones</li>
+                        <li>Casillero no incluido</li>
+                        <li>Acceso a eventos regulares</li>
+                    </ul>
+                    <button onclick="selectPlan('basico')" class="aportar-btn">Aportar</button>
+                </div>
+                <div class="plan-option featured">
+                    <h3>Plan Premium</h3>
+                    <p class="price">$50/mes</p>
+                    <ul>
+                        <li>Acceso completo a instalaciones</li>
+                        <li>Casillero incluido</li>
+                        <li>Eventos exclusivos</li>
+                        <li>Descuentos especiales</li>
+                    </ul>
+                    <button onclick="selectPlan('premium')" class="aportar-btn">Aportar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel Casillero -->
+        <div id="casillero" class="panel">
+            <h2>Tu Casillero</h2>
+            <div class="casillero-content">
+                <div id="casillero-actual" class="casillero-display">
+                    <h3>Tu número de casillero</h3>
+                    <div class="numero-casillero">A-15</div>
+                </div>
+                <div id="sin-casillero" class="casillero-display" style="display: none;">
+                    <h3>¡Elige tu casillero YA!</h3>
+                    <p>No tienes un casillero asignado</p>
+                </div>
+                <div class="casilleros-grid">
+                    <!-- Los casilleros se generarán dinámicamente con JavaScript -->
+                </div>
+                <div class="casillero-form">
+                    <input type="text" placeholder="Ingresa el número de casillero" id="casillero-input">
+                    <button class="alquilar-btn">ALQUILAR</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel Solicitudes -->
+        <div id="solicitudes" class="panel">
+            <h2>Nueva Solicitud</h2>
+            <form id="solicitud-form" class="solicitud-form">
+                <div class="form-group">
+                    <label>Plan Seleccionado</label>
+                    <input type="text" id="plan-seleccionado" readonly>
+                </div>
+                <div class="info-bancaria">
+                    <h3>Información Bancaria</h3>
+                    <div class="cuenta-info">
+                        <p>Banco: Pichincha</p>
+                        <p>Cuenta: 2204567890</p>
+                        <p>Tipo: Ahorros</p>
+                        <p>Nombre: AEIS</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Comprobante de Pago</label>
+                    <input type="file" accept="image/*" id="comprobante" required>
+                </div>
+                <button type="submit" class="submit-btn">Enviar Solicitud</button>
+            </form>
+        </div>
+    </div>
+</main>
+
+<!-- Modal Cambiar Contraseña -->
+<div id="password-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="togglePasswordModal()">&times;</span>
+        <h2>Cambiar Contraseña</h2>
+        <form id="password-form">
+            <div class="form-group">
+                <label>Contraseña Actual</label>
+                <input type="password" id="current-password" required>
+            </div>
+            <div class="form-group">
+                <label>Nueva Contraseña</label>
+                <input type="password" id="new-password" required>
+            </div>
+            <div class="form-group">
+                <label>Confirmar Nueva Contraseña</label>
+                <input type="password" id="confirm-password" required>
+            </div>
+            <button type="submit" class="save-btn">Guardar Cambios</button>
+        </form>
+    </div>
+</div>
+
+<script src="../js/usuario.js"></script>
+</body>
+</html>

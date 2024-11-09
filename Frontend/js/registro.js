@@ -11,37 +11,60 @@ document.addEventListener('DOMContentLoaded', function() {
     const termsCheckbox = document.getElementById('terms');
     const validationMessage = document.getElementById('validationMessage');
 
+    // Función para mostrar notificaciones
+    function showNotification(message, type) {
+        // Aquí puedes implementar la lógica para mostrar notificaciones en tu UI
+        alert(message);  // O reemplazar por una notificación en pantalla
+    }
+
+    // Función para verificar el código
+    function verify_code(email, verificationCode) {
+        fetch("http://localhost:5000/verify_code", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email: email, code: verificationCode }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data.message);
+                if (data.message === "Verification successful!") {
+                    verificacionModal.style.display = "none";
+                    showNotification("Registro exitoso", "success");
+                    document.getElementById("registro-sec").style.display = "none";
+                    document.getElementById("inicio-sec").style.display = "flex";
+                } else {
+                    showNotification("Código de verificación inválido.", "error");
+                }
+            })
+            .catch((error) => console.error("Error:", error));
+    }
+
     registroForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        // Limpiar mensajes de validación previos
         validationMessage.innerHTML = '';
         validationMessage.style.display = 'none';
 
-        // Array para almacenar los errores
         const errors = [];
 
-        // Validación de contraseñas
         if (passwordInput.value !== confirmPasswordInput.value) {
             errors.push('Las contraseñas no coinciden.');
         }
 
-        // Validación de cédula (10 dígitos)
         if (cedulaInput.value.length !== 10) {
             errors.push('La cédula debe tener 10 dígitos.');
         }
 
-        // Validación de correo institucional
         if (!emailInput.value.endsWith('@epn.edu.ec')) {
             errors.push('El correo debe terminar con el dominio @epn.edu.ec.');
         }
 
-        // Validación de términos y condiciones
         if (!termsCheckbox.checked) {
             errors.push('Debes aceptar los términos y condiciones.');
         }
 
-        // Mostrar mensajes de validación si hay errores
         if (errors.length > 0) {
             errors.forEach(error => {
                 const li = document.createElement('li');
@@ -51,24 +74,24 @@ document.addEventListener('DOMContentLoaded', function() {
             validationMessage.style.display = 'block';
         } else {
             validationMessage.style.display = 'none';
-
             emailDisplay.textContent = emailInput.value;
             verificacionModal.classList.add('active');
         }
     });
 
-    editarCorreoLink.addEventListener('click', function(e) {
-        e.preventDefault();
-
-        verificacionModal.classList.remove('active');
-        emailInput.focus();
-    });
-
     verificacionForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        alert('Código verificado con éxito!');
+        const verificationCode = document.getElementById('codigo').value;
+        const email = emailInput.value;
+
+        verify_code(email, verificationCode);
+    });
+
+    editarCorreoLink.addEventListener('click', function(e) {
+        e.preventDefault();
         verificacionModal.classList.remove('active');
+        emailInput.focus();
     });
 
     verificacionModal.addEventListener('click', function(e) {
