@@ -7,10 +7,6 @@ const casilleroSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    ubicacion: {
-      type: String,
-      required: true,
-    },
     estado: {
       type: String,
       enum: ["disponible", "ocupado"],
