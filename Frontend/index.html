@@ -3,96 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interfaz de Usuario</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/style_index.css">
+    <title>APORTACIONES AEIS</title>
 </head>
 <body>
-    <!-- Barra de notificación -->
-    <div id="notification-bar" class="notification-bar"></div>
-
-    <!-- Sección de inicio de sesión -->
-    <section class="inicio-sec" id="inicio-sec">
-        <div class="left-side">
-            <img src="panther_logo.png" alt="Logo" class="logo">
-        </div>
-        <div class="right-side">
-            <h2>Inicio de Sesión</h2>
-            <form id="login-form">
-                <label for="identifier">Correo o Cedula</label>
-                <input type="text" id="identifier" name="identifier" required>
-                
-                <label for="password">Contraseña:</label>
-                <input type="password" id="password" name="password" required>
-                
-                <button type="submit" class="login-btn" id="ingresar-btn">Ingresar</button>
-                <button type="button" class="register-btn" id="register-btn">Registrarse</button>
-            </form>
-        </div>
-    </section>
-
-    <!-- Sección de registro de información -->
-    <section class="registro-sec" id="registro-sec">
-        <h2>Registro de Información</h2>
-        <form id="register-form">
-            <label for="reg-email">Correo:</label>
-            <input type="email" id="reg-email" name="reg-email" required>
-
-            <label for="reg-password">Contraseña:</label>
-            <input type="password" id="reg-password" name="reg-password" required>
-
-            <label for="confirm-password">Confirme Contraseña:</label>
-            <input type="password" id="confirm-password" name="confirm-password" required>
-
-            <label for="photo">Foto (Opcional):</label>
-            <input type="file" id="photo" name="photo" accept="image/*" onchange="previewImage(event)">
-            
-            <div class="image-preview" id="image-preview">
-                <img id="image-preview-img" src="" alt="Vista previa de la imagen">
-            </div>
-            
-            <button type="submit" class="submit-btn">Registrar</button>
-        </form>
-    </section>
-
-    <!-- Sección de web -->
-    <section class="web-sec" id="web-sec">
-        <div class="web-left-side">
-            <div class="web-imagen" id="web-imagen">
-                <img id="image-web-img" src="" alt="Vista previa de la imagen">
-            </div>
-
-            <button type="button" class="perfil-btn" id="perfil-btn">Perfil</button>
-            <button type="button" class="aportaciones-btn" id="aportaciones-btn">Aportaciones</button>
-            <button type="button" class="casilleros-btn" id="casilleros-btn">Casilleros</button>
-            <button type="button" class="logout-btn" id="logout-btn">Cerrar Sesión</button>
-        </div>
-        <div class="web-right-side">
-            <section class="perfil-sec" id="perfil-sec">
-                <h1>Perfil</h1>
-                
-            </section>
-            <section class="aportaciones-sec" id="aportaciones-sec">
-                <h1>Aportaciones</h1>
-            </section>
-            <section class="casilleros-sec" id="casilleros-sec">
-                <h1>Casilleros</h1>
-            </section>
-        </div>
-    </section>
-
-    <!-- Modal para ingresar el código de verificación -->
-    <div id="verificationModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Ingrese el código de verificación</h2>
-            <form id="verificationForm">
-                <label for="verification-code">Código de verificación:</label>
-                <input type="text" id="verification-code" name="verification-code" required>
-                <button type="submit" class="verify-btn">Verificar</button>
-            </form>
-        </div>
+<nav>
+    <div>
+        <div class="logo_aeis"></div>
+        <span>AEIS</span>
     </div>
+    <div>
+        <a href="index.html">Inicio</a>
+        <a href="#ingreso">Ingreso</a>
+        <a href="registro.html" id="registroButton" class="registro">Registro</a>
+    </div>
+</nav>
 
-    <script src="script.js"></script>
+<main>
+    <section>
+        <h1>Bienvenido al Sistema de Gestión de Aportaciones de la AEIS</h1>
+        <p>Gestiona tus aportaciones y asignación de casilleros de manera fácil y eficiente</p>
+    </section>
+
+    <section>
+        <!-- Tarjeta para cada plan -->
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <h3>PANTERA JUNIOR</h3>
+                    <div class="price">$15</div>
+                </div>
+                <div class="card-back">
+                    <h3 class="tittle_card-back">PANTERA JUNIOR</h3>
+                    <ul>
+                        <li>Acceso a casillero.</li>
+                        <li>Colada Morada.</li>
+                        <li>Descuento en <strong>Eventos y Cursos</strong>.</li>
+                        <li>Esfero.</li>
+                        <li>Funda de caramelos.</li>
+                        <li>Packs de Stickers.</li>
+                        <li>Toma-todo.</li>
+                        <li><strong>Descuentos: </strong>Ping-pong, billar y PS4.</li>
+                    </ul>
+                    <button>APORTAR</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <h3>PANTERA SENIOR</h3>
+                    <div class="price">$26</div>
+                </div>
+                <div class="card-back">
+                    <h3 class="tittle_card-back">PANTERA SENIOR</h3>
+                    <ul>
+                        <li>Plan <strong>PANTERA JUNIOR</strong></li>
+                        <li>+</li>
+                        <li><strong>Hoddie</strong></li>
+                        <li><strong>Rubbery Duck Debugger</strong></li>
+                    </ul>
+                    <button>APORTAR</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <h3>CASILLERO</h3>
+                    <div class="price">$8</div>
+                </div>
+                <div class="card-back">
+                    <h3 class="tittle_card-back">CASILLERO</h3>
+                    <ul>
+                        <li>Acceso a <strong>CASILLERO GRANDE</strong></li>
+                    </ul>
+                    <button>COMPRAR</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<script src="js/registro.js"></script>
 </body>
 </html>
