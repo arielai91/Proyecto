@@ -151,6 +151,14 @@ main {
     margin-top: 10px;
 }
 
+.profile-pic img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+}
+
 .change-photo-overlay {
     position: absolute;
     bottom: 0;
@@ -348,14 +356,7 @@ main {
     color: var(--gray);
 }
 
-/* Profile Image Styles */
-.profile-pic img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    display: block;
-    margin: 0 auto;
-}
+
 
 /* Form Styles */
 .form-group {

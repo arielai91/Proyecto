@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style_admin.css">
+    <title>Panel de Administrador</title>
+</head>
+<body>
+<nav>
+    <div class="nav-left">
+        <div class="logo_aeis"></div>
+        <span class="brand-name">AEIS</span>
+    </div>
+    <a href="index.html" class="salir-btn">Cerrar Sesión</a>
+</nav>
+
+<main>
+    <div class="sidebar">
+        <div class="profile-card">
+            <h2 class="admin-label">ADMINISTRADOR</h2> <!-- New label for Administrator -->
+            <div class="profile-container">
+                <div class="profile-pic">
+                    <img src="../content/logo_aeis.png" alt="Profile Picture" id="profile-image">
+                </div>
+                <button class="button_profile">Cambiar foto</button>
+            </div>
+            <div class="profile-info">
+                <h3>Juan Pérez</h3>
+                <p>Cédula: 123456789</p>
+                <p>Correo: juan.perez@example.com</p>
+            </div>
+            <button class="change-password-btn" onclick="togglePasswordModal()">Cambiar Contraseña</button>
+        </div>
+        <div class="menu">
+            <button class="menu-button" onclick="showPanel('solicitudes-pendientes')">Solicitudes Pendientes</button>
+            <button class="menu-button" onclick="showPanel('solicitudes-aprobadas')">Solicitudes Aprobadas</button>
+            <button class="menu-button" onclick="showPanel('solicitudes-rechazadas')">Solicitudes Rechazadas</button>
+            <button class="menu-button" onclick="showPanel('crear-administrador')">Crear Administrador</button>
+            <!-- New button -->
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- Panel Solicitudes Pendientes -->
+        <div id="solicitudes-pendientes" class="panel active">
+            <h2>Solicitudes Pendientes</h2>
+            <div class="solicitudes-list" id="pending-requests">
+                <details class="solicitud-details">
+                    <summary>Solicitud de Aportación - Juan Pérez</summary>
+                    <div class="solicitud-info">
+                        <p><strong>Detalle de Solicitud:</strong> Plan Premium</p>
+                        <p><strong>Valor a Pagar:</strong> $50</p>
+                        <p><strong>Correo:</strong> juan.perez@example.com</p>
+                        <img src="../content/comprobante.jpg" alt="Comprobante" class="comprobante"
+                             onclick="openImageModal('../content/comprobante.jpg')">
+                        <div class="modal-buttons">
+                            <button onclick="openRejectModal()">Rechazar</button>
+                            <button onclick="openApproveModal()">Aprobar</button>
+                        </div>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <!-- Panel Crear Administrador -->
+        <div id="crear-administrador" class="panel">
+            <h2>Crear Administrador</h2>
+            <form id="create-admin-form" class="admin-form">
+                <label for="admin-nombre">Nombre:</label>
+                <input type="text" id="admin-nombre" required>
+
+                <label for="admin-apellido">Apellido:</label>
+                <input type="text" id="admin-apellido" required>
+
+                <label for="admin-cedula">Cédula:</label>
+                <input type="text" id="admin-cedula" required>
+
+                <label for="admin-correo">Correo Institucional:</label>
+                <input type="email" id="admin-correo" required>
+
+                <label for="admin-password">Contraseña:</label>
+                <input type="password" id="admin-password" required>
+
+                <label for="admin-confirm-password">Confirmar Contraseña:</label>
+                <input type="password" id="admin-confirm-password" required>
+
+                <button type="submit" class="submit-btn">Crear</button>
+            </form>
+        </div>
+
+        <!-- Panel Solicitudes Aprobadas -->
+        <div id="solicitudes-aprobadas" class="panel">
+            <h2>Solicitudes Aprobadas</h2>
+            <div class="solicitudes-list" id="approved-requests">
+                <details class="solicitud-details">
+                    <summary>Solicitud de Casillero - María López</summary>
+                    <div class="solicitud-info">
+                        <p><strong>Detalle de Solicitud:</strong> Casillero 12</p>
+                        <p><strong>Valor a Pagar:</strong> $8</p>
+                        <p><strong>Correo:</strong> maria.lopez@example.com</p>
+                        <img src="../content/comprobante.jpg" alt="Comprobante" class="comprobante"
+                             onclick="openImageModal('../content/comprobante.jpg')">
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <!-- Panel Solicitudes Rechazadas -->
+        <div id="solicitudes-rechazadas" class="panel">
+            <h2>Solicitudes Rechazadas</h2>
+            <div class="solicitudes-list" id="rejected-requests">
+                <details class="solicitud-details">
+                    <summary>Solicitud de Aportación - Carlos García</summary>
+                    <div class="solicitud-info">
+                        <p><strong>Detalle de Solicitud:</strong> Plan Básico</p>
+                        <p><strong>Valor a Pagar:</strong> $30</p>
+                        <p><strong>Correo:</strong> carlos.garcia@example.com</p>
+                        <p><strong>Motivo de Rechazo:</strong> Pago no realizado</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Modal para imagen -->
+<div id="image-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeImageModal()">&times;</span>
+        <img id="modal-image" src="" alt="Comprobante" style="width: 100%; height: auto;">
+    </div>
+</div>
+
+<!-- Modal para rechazar solicitud -->
+<div id="reject-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeRejectModal()">&times;</span>
+        <h2>Rechazar Solicitud</h2>
+        <form id="reject-form">
+            <div class="form-group">
+                <label for="reject-reason">Motivo de Rechazo:</label>
+                <input list="reasons" id="reject-reason" required class="modern-datalist">
+                <datalist id="reasons">
+                    <option value="Pago no realizado">
+                    <option value="Información incompleta">
+                    <option value="Otro">
+                </datalist>
+            </div>
+            <button type="submit" class="modal-btn reject-btn">Enviar</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal para aprobar solicitud -->
+<div id="approve-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeApproveModal()">&times;</span>
+        <h2>Confirmar Aprobación</h2>
+        <p>¿Está seguro de que desea aprobar esta solicitud?</p>
+        <div class="modal-buttons">
+            <button onclick="confirmApproval()" class="modal-btn approve-btn">Aprobar</button>
+            <button onclick="closeApproveModal()" class="modal-btn modal-btn-secondary">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Contenedor para las solicitudes pendientes -->
+<div class="pending-requests">
+    <summary class="summary-title">Solicitudes Pendientes</summary>
+    <div class="summary-details">
+        <!-- Detalles de la solicitud -->
+        <p class="summary-text">Detalles de la solicitud aquí...</p>
+    </div>
+</div>
+
+<script src="../js/admin.js"></script>
+</body>
+</html>
