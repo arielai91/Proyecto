@@ -13,7 +13,7 @@
         </div>
         <span class="brand-name">AEIS</span>
     </div>
-    <a href="index.html" class="salir-btn">Salir</a>
+    <a href="index.html" class="salir-btn">Cerrar Sesión</a>
 </nav>
 
 <main>
@@ -22,13 +22,8 @@
             <div class="profile-container">
                 <div class="profile-pic">
                     <img src="../content/logo_aeis.png" alt="Profile Picture" id="profile-image">
-                    <div class="change-photo-overlay">
-                        <label for="photo-upload" class="change-photo-btn">
-                            <i class="fas fa-camera"></i>
-                        </label>
-                        <input type="file" id="photo-upload" hidden accept="image/*">
-                    </div>
                 </div>
+                <button class="button_profile">Cambiar foto</button>
             </div>
             <div class="profile-info">
                 <h3>Juan Pérez</h3>
@@ -49,24 +44,14 @@
         <!-- Panel Plan Actual -->
         <div id="plan-actual" class="panel active">
             <h2>Plan Actual</h2>
-            <div class="plan-card">
-                <div class="plan-header">
-                    <h3>Plan Premium</h3>
-                    <span class="plan-price">$50/mes</span>
+            <div class="no-plan-card">
+                <div class="no-plan-image">
+                    <img src="../content/no-plan.png" alt="No plan active">
                 </div>
-                <div class="plan-benefits">
-                    <h4>Beneficios Incluidos:</h4>
-                    <ul>
-                        <li>Acceso completo a instalaciones</li>
-                        <li>Casillero incluido</li>
-                        <li>Eventos exclusivos</li>
-                        <li>Descuentos especiales</li>
-                    </ul>
-                </div>
-                <div class="plan-status">
-                    <p>Estado: <span class="status-active">Activo</span></p>
-                    <p>Próximo pago: 01/02/2024</p>
-                </div>
+                <h3>No tienes un plan activo</h3>
+                <p class="motivation-text">¡Únete a nuestra comunidad y disfruta de todos los beneficios que tenemos
+                    para ti!</p>
+                <button class="cta-button" onclick="showPanel('planes-disponibles')">VER PLANES</button>
             </div>
         </div>
 
@@ -82,9 +67,8 @@
                         <li>Casillero no incluido</li>
                         <li>Acceso a eventos regulares</li>
                     </ul>
-                    <button onclick="selectPlan('basico')" class="aportar-btn">Aportar</button>
                 </div>
-                <div class="plan-option featured">
+                <div class="plan-option">
                     <h3>Plan Premium</h3>
                     <p class="price">$50/mes</p>
                     <ul>
@@ -93,61 +77,139 @@
                         <li>Eventos exclusivos</li>
                         <li>Descuentos especiales</li>
                     </ul>
-                    <button onclick="selectPlan('premium')" class="aportar-btn">Aportar</button>
                 </div>
+            </div>
+            <div class="parent-container">
+                <button class="button-aportar" onclick="showPanel('solicitudes')">APORTAR</button>
             </div>
         </div>
 
         <!-- Panel Casillero -->
         <div id="casillero" class="panel">
             <h2>Tu Casillero</h2>
+            <div class="locker_info">
+                <p>Aún no tienes casilleros</p>
+            </div>
             <div class="casillero-content">
-                <div id="casillero-actual" class="casillero-display">
-                    <h3>Tu número de casillero</h3>
-                    <div class="numero-casillero">A-15</div>
+                <div class="locker_legend">
+                    <p class="legend available">Disponible</p>
+                    <p class="legend"> Ocupado</p>
                 </div>
-                <div id="sin-casillero" class="casillero-display" style="display: none;">
-                    <h3>¡Elige tu casillero YA!</h3>
-                    <p>No tienes un casillero asignado</p>
-                </div>
-                <div class="casilleros-grid">
-                    <!-- Los casilleros se generarán dinámicamente con JavaScript -->
+                <div class="lockers-grid">
+                    <div class="locker available">01</div>
+                    <div class="locker">02</div>
+                    <div class="locker available">03</div>
+                    <div class="locker">04</div>
+                    <div class="locker available">05</div>
+                    <div class="locker">06</div>
+                    <div class="locker">07</div>
+                    <div class="locker available">08</div>
+                    <div class="locker">09</div>
+                    <div class="locker available">10</div>
+                    <div class="locker">11</div>
+                    <div class="locker available">12</div>
+                    <div class="locker">13</div>
+                    <div class="locker available">14</div>
+                    <div class="locker">15</div>
+                    <div class="locker available">16</div>
+                    <div class="locker">17</div>
+                    <div class="locker available">18</div>
+                    <div class="locker">19</div>
+                    <div class="locker available">20</div>
+                    <div class="locker">21</div>
+                    <div class="locker available">22</div>
+                    <div class="locker">23</div>
+                    <div class="locker available">24</div>
+                    <div class="locker">25</div>
+                    <div class="locker available">26</div>
+                    <div class="locker">27</div>
+                    <div class="locker available">28</div>
+                    <div class="locker">29</div>
+                    <div class="locker available">30</div>
+                    <div class="locker">31</div>
+                    <div class="locker available">32</div>
+                    <div class="locker">33</div>
+                    <div class="locker available">34</div>
+                    <div class="locker">35</div>
+                    <div class="locker available">36</div>
+                    <div class="locker">37</div>
+                    <div class="locker available">38</div>
+                    <div class="locker">39</div>
+                    <div class="locker available">40</div>
                 </div>
                 <div class="casillero-form">
                     <input type="text" placeholder="Ingresa el número de casillero" id="casillero-input">
-                    <button class="alquilar-btn">ALQUILAR</button>
+                    <button class="submit-locker">Seleccionar Casillero</button>
                 </div>
             </div>
         </div>
 
         <!-- Panel Solicitudes -->
         <div id="solicitudes" class="panel">
-            <h2>Nueva Solicitud</h2>
-            <form id="solicitud-form" class="solicitud-form">
-                <div class="form-group">
-                    <label>Plan Seleccionado</label>
-                    <input type="text" id="plan-seleccionado" readonly>
-                </div>
-                <div class="info-bancaria">
-                    <h3>Información Bancaria</h3>
-                    <div class="cuenta-info">
+            <h2>Solicitudes</h2>
+
+            <details class="solicitud-details">
+                <summary>Solicitud de Aportación</summary>
+                <form class="solicitud-form">
+                    <div class="form-group">
+                        <label for="plan-type">Tipo de Plan</label>
+                        <select id="plan-type" required>
+                            <option value="">Seleccione un plan</option>
+                            <option value="basico">Plan Básico - $30</option>
+                            <option value="premium">Plan Premium - $50</option>
+                        </select>
+                    </div>
+
+                    <div class="bank-info">
+                        <h4>Información Bancaria</h4>
                         <p>Banco: Pichincha</p>
                         <p>Cuenta: 2204567890</p>
                         <p>Tipo: Ahorros</p>
-                        <p>Nombre: AEIS</p>
+                        <p>Beneficiario: AEIS</p>
+                        <p>Valor a transferir: <span id="transfer-amount">$0</span></p>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label>Comprobante de Pago</label>
-                    <input type="file" accept="image/*" id="comprobante" required>
-                </div>
-                <button type="submit" class="submit-btn">Enviar Solicitud</button>
-            </form>
+
+                    <div class="form-group">
+                        <label for="comprobante-aportacion">Comprobante de Pago</label>
+                        <input type="file" id="comprobante-aportacion" accept="image/*" required>
+                        <div class="image-preview" id="preview-aportacion"></div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Enviar Solicitud</button>
+                </form>
+            </details>
+
+            <details class="solicitud-details">
+                <summary>Solicitud de Casillero</summary>
+                <form class="solicitud-form">
+                    <div class="form-group">
+                        <label for="locker-number">Número de Casillero</label>
+                        <input type="text" id="locker-number" readonly>
+                    </div>
+
+                    <div class="bank-info">
+                        <h4>Información Bancaria</h4>
+                        <p>Banco: Pichincha</p>
+                        <p>Cuenta: 2204567890</p>
+                        <p>Tipo: Ahorros</p>
+                        <p>Beneficiario: AEIS</p>
+                        <p>Valor a transferir: <span>$8</span></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comprobante-casillero">Comprobante de Pago</label>
+                        <input type="file" id="comprobante-casillero" accept="image/*" required>
+                        <div class="image-preview" id="preview-casillero"></div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Enviar Solicitud</button>
+                </form>
+            </details>
         </div>
+
     </div>
 </main>
 
-<!-- Modal Cambiar Contraseña -->
 <div id="password-modal" class="modal">
     <div class="modal-content">
         <span class="close-modal" onclick="togglePasswordModal()">&times;</span>

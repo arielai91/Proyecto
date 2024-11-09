@@ -65,12 +65,19 @@ nav {
 }
 
 .salir-btn {
-    color: var(--light);
+    background-color: var(--primary);
     text-decoration: none;
-    padding: 0.75rem 1.5rem;
-    border: 2px solid var(--primary);
-    border-radius: 8px;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-weight: bold;
     transition: all 0.3s ease;
+}
+
+nav a.salir-btn:hover {
+    background-color: var(--dark);
+    border: 1px solid var(--primary);
+    color: var(--primary);
 }
 
 /* Main Layout */
@@ -112,6 +119,36 @@ main {
     overflow: hidden;
     border: 4px solid var(--primary);
     position: relative;
+}
+
+.button_profile {
+    width: 120px;
+    margin: 10px auto;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background-color: var(--primary);
+    color: var(--light);
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.profile-info {
+    padding: 30px;
+}
+
+.change-password-btn {
+    width: 150px;
+    margin: 0px auto;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--primary);
+    color: var(--light);
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+#profile-image {
+    margin-top: 10px;
 }
 
 .change-photo-overlay {
@@ -180,6 +217,12 @@ main {
 
 .panel.active {
     display: block;
+}
+
+.panel h2 {
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    font-size: 3.0rem;
 }
 
 /* Plan Cards */
@@ -348,4 +391,281 @@ main {
 
 .save-btn:hover {
     background-color: var(--primary-hover);
+}
+
+/* No Plan Card Styles */
+.no-plan-card {
+    background-color: white;
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    margin-top: 2rem;
+}
+
+.no-plan-image {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 2rem;
+    background-color: #f5f5f5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.motivation-text {
+    color: var(--gray);
+    font-size: 1.2rem;
+    margin: 1.5rem 0;
+    line-height: 1.6;
+}
+
+.cta-button {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 1rem 2.5rem;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+/* Planes Disponibles Update */
+.planes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    padding: 2rem;
+}
+
+.plan-option {
+    background-color: white;
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.plan-option:hover {
+    border-color: var(--primary);
+    transform: translateY(-10px);
+}
+
+.parent-container {
+    display: flex;
+    justify-content: center;
+}
+
+.button-aportar {
+    margin-top: auto !important;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 1rem 2.5rem;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button-aportar:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+
+.legend {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: var(--gray);
+}
+
+.available {
+    color: var(--primary);
+}
+
+.locker {
+    background-color: gray;
+    color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.locker.available {
+    background-color: var(--primary);
+}
+
+.lockers-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 1rem;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    border-radius: 16px;
+}
+
+.locker {
+    background-color: #808080;
+    color: white;
+    padding: 1.5rem 1rem;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.locker.available {
+    background-color: var(--primary);
+}
+
+.locker:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.casillero-form {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.casillero-form input {
+    flex: 1;
+    padding: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.submit-locker {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Solicitudes Styles */
+.solicitud-details {
+    background-color: white;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+.solicitud-details summary {
+    padding: 1.5rem;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1rem;
+    list-style: none;
+    position: relative;
+}
+
+.solicitud-details summary::after {
+    content: '▼';
+    position: absolute;
+    right: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.solicitud-details[open] summary::after {
+    transform: rotate(180deg);
+}
+
+.solicitud-form {
+    padding: 2rem;
+    border-top: 1px solid #eee;
+}
+
+.bank-info {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+}
+
+.bank-info h4 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.bank-info p {
+    margin: 0.5rem 0;
+    color: var(--gray);
+}
+
+.bank-info span {
+    font-weight: bolder;
+    font-size: 2rem;
+    padding: 0 20px;
+}
+
+.image-preview {
+    width: 100%;
+    height: 200px;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray);
+}
+
+.image-preview img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+select, input[type="file"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
+
+.submit-btn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    width: 100%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1.5rem;
+}
+
+.submit-btn:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
 }
