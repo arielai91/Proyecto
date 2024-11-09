@@ -1,4 +1,3 @@
-// uploadRoutes.js
 const express = require("express");
 const UploadController = require("../controllers/uploadController");
 
@@ -10,7 +9,18 @@ class UploadRoutes {
   }
 
   initializeRoutes() {
-    this.router.post("/upload", (req, res) => this.controller.upload(req, res));
+    this.router.post("/upload", (req, res) =>
+      this.controller.uploadImage(req, res)
+    );
+    this.router.get("/image/:key", (req, res) =>
+      this.controller.getImage(req, res)
+    );
+    this.router.put("/image/:key", (req, res) =>
+      this.controller.updateImage(req, res)
+    );
+    this.router.delete("/image/:key", (req, res) =>
+      this.controller.deleteImage(req, res)
+    );
   }
 }
 

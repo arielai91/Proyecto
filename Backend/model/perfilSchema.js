@@ -11,16 +11,10 @@ const perfilSchema = new mongoose.Schema(
     },
     nombreCompleto: {
       type: String,
-      required: false,
+      required: true,
       unique: true,
       maxlength: 30,
       inmutable: true,
-    },
-    nickname: {
-      type: String,
-      required: false,
-      unique: true,
-      maxlength: 20,
     },
     email: {
       type: String,
@@ -31,16 +25,10 @@ const perfilSchema = new mongoose.Schema(
     },
     cedula: {
       type: String,
-      required: false,
+      required: true,
       unique: true,
       match: /^\d{10}$/,
       immutable: true,
-    },
-    codigoUnico: {
-      type: Number,
-      required: false,
-      unique: true,
-      inmutable: true,
     },
     contraseña: {
       type: String,
@@ -69,7 +57,6 @@ const perfilSchema = new mongoose.Schema(
 );
 
 perfilSchema.index({ nombreCompleto: 1 }, { unique: true, background: true });
-perfilSchema.index({ nickname: 1 }, { unique: true, background: true });
 perfilSchema.index({ email: 1 }, { unique: true, background: true });
 perfilSchema.index({ cedula: 1 }, { unique: true, background: true });
 perfilSchema.index({ codigoUnico: 1 }, { unique: true, background: true });
