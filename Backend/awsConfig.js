@@ -1,29 +1,36 @@
-const aws = require("aws-sdk");
+const { S3Client } = require("@aws-sdk/client-s3");
+const { Upload } = require("@aws-sdk/lib-storage");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
 const path = require("path");
-require("dotenv").config(); // Cargar variables de entorno desde el archivo .env
+require("dotenv").config();
 
-// Configurar AWS SDK
-aws.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION,
-});
+class AwsConfig {
+  constructor() {
+    this.s3 = new S3Client({
+      region: process.env.AWS_REGION,
+      credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      },
+    });
 
-const s3 = new aws.S3();
+    this.upload = multer({
+      storage: multerS3({
+        s3: this.s3,
+        bucket: process.env.AWS_BUCKET_NAME,
+        acl: "public-read",
+        key: function (req, file, cb) {
+          cb(null, Date.now().toString() + path.extname(file.originalname));
+        },
+        serverSideEncryption: "AES256",
+      }),
+    });
+  }
 
-// Configurar multer-s3 para el almacenamiento de imágenes en S3 con SSE-S3
-const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: process.env.AWS_BUCKET_NAME,
-    acl: "public-read",
-    key: function (req, file, cb) {
-      cb(null, Date.now().toString() + path.extname(file.originalname));
-    },
-    serverSideEncryption: "AES256",
-  }),
-});
+  getUploadMiddleware() {
+    return this.upload;
+  }
+}
 
-module.exports = upload;
+module.exports = new AwsConfig();

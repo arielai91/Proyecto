@@ -8,10 +8,6 @@ const planSchema = new mongoose.Schema(
       unique: true,
       enum: ["Sin Plan", "Pantera Junior", "Pantera Senior"],
     },
-    descripcion: {
-      type: String,
-      default: "Plan de suscripción AEIS",
-    },
     precio: {
       type: Number,
       required: true,
