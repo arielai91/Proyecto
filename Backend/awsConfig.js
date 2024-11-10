@@ -1,8 +1,12 @@
-const { S3Client } = require("@aws-sdk/client-s3");
-const { Upload } = require("@aws-sdk/lib-storage");
+const {
+  S3Client,
+  DeleteObjectCommand,
+  GetObjectCommand,
+} = require("@aws-sdk/client-s3");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
 const path = require("path");
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 require("dotenv").config();
 
 class AwsConfig {
@@ -30,6 +34,16 @@ class AwsConfig {
 
   getUploadMiddleware() {
     return this.upload;
+  }
+
+  async getImageUrl(key) {
+    const params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: key,
+    };
+    const command = new GetObjectCommand(params);
+    const url = await getSignedUrl(this.s3, command, { expiresIn: 3600 });
+    return url;
   }
 }
 

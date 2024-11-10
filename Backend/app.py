@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 # Cargar variables de entorno desde el archivo .env
 load_dotenv()
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../Frontend')
 CORS(app)  # Habilitar CORS para todas las rutas
 
 # Establecer la clave secreta desde una variable de entorno
@@ -31,7 +31,7 @@ verification_codes = {}
 
 @app.route('/')
 def index():
-    return send_from_directory('../Frontend/html', 'registro.html')
+    return send_from_directory(app.static_folder + '/html', 'index.html')
 
 @app.route('/send_code', methods=['POST'])
 def send_code():
@@ -55,7 +55,19 @@ def verify_code():
 
 @app.route('/<path:path>')
 def serve_file(path):
-    return send_from_directory('../Frontend', path)
+    return send_from_directory(app.static_folder + '/html', path)
+
+@app.route('/css/<path:path>')
+def serve_css(path):
+    return send_from_directory(app.static_folder + '/css', path)
+
+@app.route('/js/<path:path>')
+def serve_js(path):
+    return send_from_directory(app.static_folder + '/js', path)
+
+@app.route('/content/<path:path>')
+def serve_content(path):
+    return send_from_directory(app.static_folder + '/content', path)
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
