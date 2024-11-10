@@ -1,45 +1,143 @@
+// Variables globales para tracking
+let currentRequestId = null;
+let activePanel = 'solicitudes-pendientes';
+
+// Función para mostrar diferentes paneles
 function showPanel(panelId) {
-    const panels = document.querySelectorAll('.panel');
-    panels.forEach(panel => {
-        panel.classList.remove('active'); // Hide all panels
+    document.querySelectorAll('.panel').forEach(panel => {
+        panel.classList.remove('active');
     });
-    document.getElementById(panelId).classList.add('active'); // Show the selected panel
+    document.getElementById(panelId).classList.add('active');
+    activePanel = panelId;
 }
 
-function openImageModal(imageSrc) {
+// Funciones para manejar modales
+function showModal(modalId) {
+    document.getElementById(modalId).style.display = 'flex';
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+
+// Cerrar modales si se hace click fuera del contenido
+window.onclick = function (event) {
+    document.querySelectorAll('.modal').forEach(modal => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+}
+
+// Función para expandir imagen
+function expandImage(imgElement) {
     const modal = document.getElementById('image-modal');
-    const modalImage = document.getElementById('modal-image');
-    modalImage.src = imageSrc;
-    modal.style.display = 'flex'; // Show the image modal
+    const expandedImg = document.getElementById('expanded-image');
+    expandedImg.src = imgElement.src;
+    modal.style.display = 'flex';
 }
 
-function closeImageModal() {
-    const modal = document.getElementById('image-modal');
-    modal.style.display = 'none'; // Hide the image modal
+// Funciones para aprobar/rechazar solicitudes
+function showApproveModal(requestId, userName) {
+    currentRequestId = requestId;
+    document.getElementById('approve-user-name').textContent = userName;
+    showModal('approve-modal');
 }
 
-function openRejectModal() {
-    const modal = document.getElementById('reject-modal');
-    modal.style.display = 'flex'; // Show the reject modal
+function showRejectModal(requestId) {
+    currentRequestId = requestId;
+    showModal('reject-modal');
 }
 
-function closeRejectModal() {
-    const modal = document.getElementById('reject-modal');
-    modal.style.display = 'none'; // Hide the reject modal
+function approveRequest() {
+    const solicitud = document.querySelector(`[data-id="${currentRequestId}"]`);
+    if (solicitud) {
+        // Crear copia de la solicitud para el panel de aprobadas
+        const solicitudClone = solicitud.cloneNode(true);
+
+        // Remover botones de acción
+        const actionButtons = solicitudClone.querySelector('.action-buttons');
+        if (actionButtons) {
+            actionButtons.remove();
+        }
+
+        // Añadir fecha de aprobación
+        const summary = solicitudClone.querySelector('summary');
+        const approvalDate = document.createElement('span');
+        approvalDate.className = 'approval-date';
+        approvalDate.textContent = `APROBADO EN: ${new Date().toLocaleDateString()}`;
+        summary.appendChild(approvalDate);
+
+        // Mover al panel de aprobadas
+        document.querySelector('#solicitudes-aprobadas .solicitudes-container').appendChild(solicitudClone);
+        solicitud.remove();
+    }
+
+    closeModal('approve-modal');
+    currentRequestId = null;
 }
 
-function openApproveModal() {
-    const modal = document.getElementById('approve-modal');
-    modal.style.display = 'flex'; // Show the approve modal
+function rejectRequest() {
+    const solicitud = document.querySelector(`[data-id="${currentRequestId}"]`);
+    if (solicitud) {
+        // Crear copia de la solicitud para el panel de rechazadas
+        const solicitudClone = solicitud.cloneNode(true);
+
+        // Modificar botones de acción
+        const actionButtons = solicitudClone.querySelector('.action-buttons');
+        if (actionButtons) {
+            actionButtons.innerHTML = '<button class="approve-btn full-width" onclick="showApproveModal(' + currentRequestId + ', \'' + solicitud.querySelector('.solicitud-name').textContent + '\')">Aprobar Solicitud</button>';
+        }
+
+        // Añadir fecha de rechazo
+        const summary = solicitudClone.querySelector('summary');
+        const rejectDate = document.createElement('span');
+        rejectDate.className = 'reject-date';
+        rejectDate.textContent = `RECHAZADO EN: ${new Date().toLocaleDateString()}`;
+        summary.appendChild(rejectDate);
+
+        // Mover al panel de rechazadas
+        document.querySelector('#solicitudes-rechazadas .solicitudes-container').appendChild(solicitudClone);
+        solicitud.remove();
+    }
+
+    closeModal('reject-modal');
+    currentRequestId = null;
 }
 
-function closeApproveModal() {
-    const modal = document.getElementById('approve-modal');
-    modal.style.display = 'none'; // Hide the approve modal
+// Función para crear nuevo administrador
+function createAdmin(event) {
+    event.preventDefault();
+
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+
+    if (password !== confirmPassword) {
+        alert('Las contraseñas no coinciden');
+        return;
+    }
+
+    // Aquí iría la lógica para crear el administrador en la base de datos
+    alert('Administrador creado exitosamente');
+    event.target.reset();
 }
 
-function confirmApproval() {
-    // Logic to approve the request
-    alert('Solicitud aprobada.');
-    closeApproveModal(); // Close the approve modal
+// Función para cambiar contraseña (placeholder)
+function togglePasswordModal() {
+    alert('Funcionalidad de cambio de contraseña en desarrollo');
 }
+
+// Event Listeners
+document.addEventListener('DOMContentLoaded', function () {
+    // Mostrar el panel inicial
+    showPanel('solicitudes-pendientes');
+
+    // Cerrar modales con la tecla Escape
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.style.display = 'none';
+            });
+        }
+    });
+});
