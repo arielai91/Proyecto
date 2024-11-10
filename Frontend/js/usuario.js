@@ -1,4 +1,4 @@
-import { ImageUpdater } from "../content/Image.js";
+import {ImageUpdater} from "../content/Image.js";
 
 // Función para mostrar el panel seleccionado
 function showPanel(panelId) {
@@ -98,7 +98,7 @@ window.addEventListener("click", (event) => {
 });
 
 // Event listener para el formulario de cambio de contraseña
-document.getElementById("password-form")?.addEventListener("submit", function(e) {
+document.getElementById("password-form")?.addEventListener("submit", function (e) {
     e.preventDefault();
 
     const currentPassword = document.getElementById("current-password").value;
@@ -149,12 +149,73 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".button-aportar")?.addEventListener("click", () => {
         showPanel("solicitudes");
     });
+
+    // Configurar todos los botones de cierre de modal
+    document.querySelectorAll(".close-modal").forEach(closeButton => {
+        closeButton.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const modal = closeButton.closest(".modal");
+            if (modal) {
+                modal.style.display = "none";
+            }
+        });
+    });
+
+    // Configurar botones dentro de los modales
+    // Modal de casillero
+    const lockerModal = document.getElementById("locker-modal");
+    if (lockerModal) {
+        // Botón cancelar
+        lockerModal.querySelector(".modal-btn-secondary")?.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleLockerModal();
+        });
+
+        // Botón seleccionar
+        lockerModal.querySelector(".modal-btn-primary")?.addEventListener("click", (e) => {
+            e.stopPropagation();
+            confirmLockerSelection();
+        });
+    }
+
+    // Modal de éxito
+    const successModal = document.getElementById("success-modal");
+    if (successModal) {
+        successModal.querySelector(".modal-btn-primary")?.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleSuccessModal();
+        });
+    }
+
+    // Modal de no disponible
+    const unavailableModal = document.getElementById("unavailable-modal");
+    if (unavailableModal) {
+        unavailableModal.querySelector(".modal-btn-primary")?.addEventListener("click", (e) => {
+            e.stopPropagation();
+            redirectToSolicitudes();
+        });
+    }
 });
 
-if (typeof ImageUpdater !== 'undefined') {
-    const imageUpdater = new ImageUpdater(
-        "http://localhost:3000/bucket/image/logo_aeis.png",
-        ".logo_aeis"
-    );
-    imageUpdater.updateImage();
-}
+// Event listener para cerrar modales al hacer clic fuera
+window.addEventListener("click", (event) => {
+    const modals = {
+        "password-modal": togglePasswordModal,
+        "locker-modal": toggleLockerModal,
+        "success-modal": toggleSuccessModal,
+        "unavailable-modal": toggleUnavailableModal
+    };
+
+    Object.entries(modals).forEach(([modalId, toggleFunction]) => {
+        const modal = document.getElementById(modalId);
+        if (event.target === modal) {
+            toggleFunction();
+        }
+    });
+});
+
+const imageUpdater = new ImageUpdater(
+    "http://localhost:3000/bucket/image/logo_aeis.png",
+    ".logo_aeis"
+);
+imageUpdater.updateImage();
