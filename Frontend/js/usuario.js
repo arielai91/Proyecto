@@ -22,7 +22,11 @@ function showPanel(panelId) {
 // Función para mostrar/ocultar el modal de cambio de contraseña
 function togglePasswordModal() {
     const modal = document.getElementById("password-modal");
-    modal.style.display = modal.style.display === "flex" ? "none" : "flex";
+    if (modal.style.display === "flex") {
+        modal.style.display = "none";
+    } else {
+        modal.style.display = "flex";
+    }
 }
 
 // Event listener para cerrar modales al hacer clic fuera
@@ -122,10 +126,10 @@ document.addEventListener("DOMContentLoaded", () => {
             toggleLockerModal(locker.textContent);
         });
     });
-
-    const imageUpdater = new ImageUpdater(
-        "http://localhost:3000/bucket/image/logo_aeis.png",
-        ".logo_aeis"
-    );
-    imageUpdater.updateImage();
 });
+
+const imageUpdater = new ImageUpdater(
+    "http://localhost:3000/bucket/image/logo_aeis.png",
+    ".logo_aeis"
+);
+imageUpdater.updateImage();

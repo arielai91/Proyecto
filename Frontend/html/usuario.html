@@ -139,7 +139,6 @@
                 </div>
             </div>
         </div>
-
         <!-- Panel Solicitudes -->
         <div id="solicitudes" class="panel">
             <h2>Solicitudes</h2>
@@ -225,39 +224,6 @@
             </div>
             <button type="submit" class="save-btn">Guardar Cambios</button>
         </form>
-    </div>
-</div>
-
-<!-- Modal de confirmación de selección de casillero -->
-<div id="locker-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal" onclick="toggleLockerModal()">&times;</span>
-        <h2>Confirmar selección</h2>
-        <p>¿Desea seleccionar el casillero <span id="selected-locker-number"></span>?</p>
-        <div class="modal-buttons">
-            <button onclick="toggleLockerModal()" class="modal-btn modal-btn-secondary">Cancelar</button>
-            <button onclick="confirmLockerSelection()" class="modal-btn modal-btn-primary">Seleccionar</button>
-        </div>
-    </div>
-</div>
-
-<!-- Modal de éxito -->
-<div id="success-modal" class="modal">
-    <div class="modal-content">
-        <h2>¡Selección Exitosa!</h2>
-        <div class="success-icon">✓</div>
-        <p>El casillero ha sido asignado satisfactoriamente.</p>
-        <button onclick="toggleSuccessModal()" class="modal-btn modal-btn-primary">OK</button>
-    </div>
-</div>
-
-<!-- Modal de no disponible -->
-<div id="unavailable-modal" class="modal">
-    <div class="modal-content">
-        <h2>Plan sin Casillero</h2>
-        <div class="warning-icon">⚠️</div>
-        <p>Su plan actual no incluye casillero.<br>Debe realizar una solicitud.</p>
-        <button onclick="redirectToSolicitudes()" class="modal-btn modal-btn-primary">Ir a Solicitudes</button>
     </div>
 </div>
 
