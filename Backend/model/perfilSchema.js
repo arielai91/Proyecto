@@ -12,7 +12,7 @@ const perfilSchema = new mongoose.Schema(
     nombreCompleto: {
       type: String,
       required: true,
-      unique: true,
+      unique: false,
       maxlength: 30,
       inmutable: true,
     },
@@ -56,10 +56,8 @@ const perfilSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-perfilSchema.index({ nombreCompleto: 1 }, { unique: true, background: true });
 perfilSchema.index({ email: 1 }, { unique: true, background: true });
 perfilSchema.index({ cedula: 1 }, { unique: true, background: true });
-perfilSchema.index({ codigoUnico: 1 }, { unique: true, background: true });
 
 const Perfil = mongoose.model("Perfil", perfilSchema);
 module.exports = Perfil;
