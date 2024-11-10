@@ -303,10 +303,11 @@ main {
 
 .numero-casillero {
     font-size: 4rem;
-    color: var(--primary);
+    color: var(--dark);
     font-weight: bold;
     margin: 1rem 0;
 }
+
 
 .casilleros-grid {
     display: grid;
