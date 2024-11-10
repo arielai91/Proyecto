@@ -1,13 +1,36 @@
+import {ImageUpdater} from "../content/Image.js";
+
 // Variables globales para tracking
 let currentRequestId = null;
 let activePanel = 'solicitudes-pendientes';
 
-// Función para mostrar diferentes paneles
+// Función mejorada para mostrar diferentes paneles
 function showPanel(panelId) {
+    // Verificar si el panel existe
+    const targetPanel = document.getElementById(panelId);
+    if (!targetPanel) {
+        console.error(`Panel not found: ${panelId}`);
+        return;
+    }
+
+    // Ocultar todos los paneles y remover clase activa de los botones
     document.querySelectorAll('.panel').forEach(panel => {
         panel.classList.remove('active');
     });
-    document.getElementById(panelId).classList.add('active');
+
+    document.querySelectorAll('.menu button').forEach(button => {
+        button.classList.remove('active');
+    });
+
+    // Activar el panel seleccionado
+    targetPanel.classList.add('active');
+
+    // Activar el botón correspondiente
+    const activeButton = document.querySelector(`.menu button[onclick*="${panelId}"]`);
+    if (activeButton) {
+        activeButton.classList.add('active');
+    }
+
     activePanel = panelId;
 }
 
@@ -21,7 +44,7 @@ function closeModal(modalId) {
 }
 
 // Cerrar modales si se hace click fuera del contenido
-window.onclick = function (event) {
+window.onclick = function(event) {
     document.querySelectorAll('.modal').forEach(modal => {
         if (event.target === modal) {
             modal.style.display = 'none';
@@ -34,7 +57,7 @@ function expandImage(imgElement) {
     const modal = document.getElementById('image-modal');
     const expandedImg = document.getElementById('expanded-image');
     expandedImg.src = imgElement.src;
-    modal.style.display = 'flex';
+    showModal('image-modal');
 }
 
 // Funciones para aprobar/rechazar solicitudes
@@ -55,7 +78,7 @@ function approveRequest() {
         // Crear copia de la solicitud para el panel de aprobadas
         const solicitudClone = solicitud.cloneNode(true);
 
-        // Remover botones de acción
+        // Remover botones de acción existentes
         const actionButtons = solicitudClone.querySelector('.action-buttons');
         if (actionButtons) {
             actionButtons.remove();
@@ -70,6 +93,8 @@ function approveRequest() {
 
         // Mover al panel de aprobadas
         document.querySelector('#solicitudes-aprobadas .solicitudes-container').appendChild(solicitudClone);
+
+        // Remover la solicitud original
         solicitud.remove();
     }
 
@@ -78,6 +103,13 @@ function approveRequest() {
 }
 
 function rejectRequest() {
+    // Verificar que se haya seleccionado un motivo
+    const rejectReason = document.getElementById('reject-reason').value;
+    if (!rejectReason) {
+        alert('Por favor seleccione un motivo de rechazo');
+        return;
+    }
+
     const solicitud = document.querySelector(`[data-id="${currentRequestId}"]`);
     if (solicitud) {
         // Crear copia de la solicitud para el panel de rechazadas
@@ -86,7 +118,8 @@ function rejectRequest() {
         // Modificar botones de acción
         const actionButtons = solicitudClone.querySelector('.action-buttons');
         if (actionButtons) {
-            actionButtons.innerHTML = '<button class="approve-btn full-width" onclick="showApproveModal(' + currentRequestId + ', \'' + solicitud.querySelector('.solicitud-name').textContent + '\')">Aprobar Solicitud</button>';
+            const userName = solicitud.querySelector('.solicitud-name').textContent;
+            actionButtons.innerHTML = `<button class="approve-btn full-width" onclick="showApproveModal(${currentRequestId}, '${userName}')">Aprobar Solicitud</button>`;
         }
 
         // Añadir fecha de rechazo
@@ -98,10 +131,13 @@ function rejectRequest() {
 
         // Mover al panel de rechazadas
         document.querySelector('#solicitudes-rechazadas .solicitudes-container').appendChild(solicitudClone);
+
+        // Remover la solicitud original
         solicitud.remove();
     }
 
     closeModal('reject-modal');
+    document.getElementById('reject-reason').value = ''; // Limpiar el select
     currentRequestId = null;
 }
 
@@ -128,16 +164,89 @@ function togglePasswordModal() {
 }
 
 // Event Listeners
-document.addEventListener('DOMContentLoaded', function () {
-    // Mostrar el panel inicial
+document.addEventListener('DOMContentLoaded', function() {
+    // Mostrar el panel inicial y activar su botón
     showPanel('solicitudes-pendientes');
+    const initialButton = document.querySelector('.menu button[onclick*="solicitudes-pendientes"]');
+    if (initialButton) {
+        initialButton.classList.add('active');
+    }
 
-    // Cerrar modales con la tecla Escape
-    document.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape') {
-            document.querySelectorAll('.modal').forEach(modal => {
-                modal.style.display = 'none';
-            });
-        }
+    // Agregar event listeners a los botones del menú
+    document.querySelectorAll('.menu button').forEach(button => {
+        button.addEventListener('click', function() {
+            const panelId = this.getAttribute('onclick').match(/'([^']+)'/)[1];
+            showPanel(panelId);
+        });
     });
+
+    // Inicializar los event listeners para las imágenes de comprobantes
+    document.querySelectorAll('.comprobante-img').forEach(img => {
+        img.addEventListener('click', function() {
+            expandImage(this);
+        });
+    });
+
+    // Inicializar los event listeners para botones de aprobar y rechazar en solicitudes pendientes
+    document.querySelectorAll('#solicitudes-pendientes .approve-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const solicitud = this.closest('.solicitud-details');
+            const userName = solicitud.querySelector('.solicitud-name').textContent;
+            const requestId = solicitud.dataset.id;
+            showApproveModal(requestId, userName);
+        });
+    });
+
+    document.querySelectorAll('#solicitudes-pendientes .reject-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const solicitud = this.closest('.solicitud-details');
+            const requestId = solicitud.dataset.id;
+            showRejectModal(requestId);
+        });
+    });
+
+    // Inicializar los event listeners para botones de aprobar en solicitudes rechazadas
+    document.querySelectorAll('#solicitudes-rechazadas .approve-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const solicitud = this.closest('.solicitud-details');
+            const userName = solicitud.querySelector('.solicitud-name').textContent;
+            const requestId = solicitud.dataset.id;
+            showApproveModal(requestId, userName);
+        });
+    });
+
+    // Event listeners para los botones de los modales
+    // Modal de Aprobar
+    const approveModalOkBtn = document.querySelector('#approve-modal .modal-btn-primary');
+    if (approveModalOkBtn) {
+        approveModalOkBtn.addEventListener('click', approveRequest);
+    }
+
+    const approveModalCancelBtn = document.querySelector('#approve-modal .modal-btn-secondary');
+    if (approveModalCancelBtn) {
+        approveModalCancelBtn.addEventListener('click', () => closeModal('approve-modal'));
+    }
+
+    // Modal de Rechazar
+    const rejectModalOkBtn = document.querySelector('#reject-modal .modal-btn-primary');
+    if (rejectModalOkBtn) {
+        rejectModalOkBtn.addEventListener('click', rejectRequest);
+    }
+
+    const rejectModalCancelBtn = document.querySelector('#reject-modal .modal-btn-secondary');
+    if (rejectModalCancelBtn) {
+        rejectModalCancelBtn.addEventListener('click', () => closeModal('reject-modal'));
+    }
+
+    // Modal de Imagen
+    const imageModalCloseBtn = document.querySelector('#image-modal .close-modal');
+    if (imageModalCloseBtn) {
+        imageModalCloseBtn.addEventListener('click', () => closeModal('image-modal'));
+    }
 });
+
+// Inicializar ImageUpdater si está disponible
+if (typeof ImageUpdater !== 'undefined') {
+    const imageUpdater = new ImageUpdater("http://localhost:3000/bucket/image/logo_aeis.png", ".logo_aeis");
+    imageUpdater.updateImage();
+}

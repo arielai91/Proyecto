@@ -9,7 +9,14 @@ class PlanRoutes {
     this.initializeRoutes();
   }
 
+  logRequest(req, res, next) {
+    console.log(`Petición: ${req.method}, Ruta: ${req.originalUrl}`);
+    next();
+  }
+
   initializeRoutes() {
+    // Middleware para imprimir el tipo de petición y la ruta
+    this.router.use(this.logRequest);
     this.router.post(
       "/plans",
       [

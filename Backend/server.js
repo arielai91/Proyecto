@@ -8,6 +8,8 @@ const PlanRoutes = require("./routes/planRoutes");
 const UploadRoutes = require("./routes/uploadRoutes");
 require("dotenv").config();
 
+const AwsConfig = require("./awsConfig");
+
 class Server {
   constructor() {
     this.app = express();
@@ -59,7 +61,7 @@ class Server {
     this.app.use("/perfiles", this.perfilRoutes);
     this.app.use("/casilleros", this.casilleroRoutes);
     this.app.use("/planes", this.planRoutes);
-    this.app.use("/upload", this.uploadRoutes);
+    this.app.use("/bucket", this.uploadRoutes);
   }
 
   startServer() {

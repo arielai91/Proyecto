@@ -7,8 +7,7 @@ class PerfilController {
   // Crear un nuevo perfil
   async create(req, res) {
     try {
-      const { rol, nombreCompleto, email, cedula, contraseña, imagen } =
-        req.body;
+      const { rol, nombreCompleto, email, cedula, contraseña } = req.body;
 
       // Validar y sanitizar las entradas
       if (!validator.isEmail(email)) {
@@ -37,12 +36,24 @@ class PerfilController {
         email: validator.normalizeEmail(email),
         cedula: validator.escape(cedula),
         contraseña: hashedPassword,
-        imagen: validator.escape(imagen),
         plan: planPorDefecto ? planPorDefecto._id : null,
       });
 
       await perfil.save();
       res.status(201).json(perfil);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  }
+
+  async checkIfExists(req, res) {
+    try {
+      const { field, value } = req.body;
+      const query = {};
+      query[field] = value;
+
+      const exists = await Perfil.exists(query);
+      res.status(200).json({ exists: !!exists });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }

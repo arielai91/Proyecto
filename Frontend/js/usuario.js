@@ -1,132 +1,74 @@
+import {ImageUpdater} from "../content/Image.js";
+
 // Función para mostrar el panel seleccionado
 function showPanel(panelId) {
-    const panels = document.querySelectorAll('.panel');
-    panels.forEach(panel => {
-        panel.classList.remove('active');
-    });
+    const panels = document.querySelectorAll(".panel");
+    panels.forEach(panel => panel.style.display = "none");
 
     const selectedPanel = document.getElementById(panelId);
     if (selectedPanel) {
-        selectedPanel.classList.add('active');
+        selectedPanel.style.display = "block";
     }
 
-    const menuButtons = document.querySelectorAll('.menu button');
+    // Actualizar estado activo de los botones
+    const menuButtons = document.querySelectorAll(".menu button");
     menuButtons.forEach(button => {
-        button.classList.remove('active');
-        if (button.getAttribute('onclick').includes(panelId)) {
-            button.classList.add('active');
+        button.classList.remove("active");
+        const buttonPanelId = button.getAttribute("onclick").match(/'([^']+)'/)[1];
+        if (buttonPanelId === panelId) {
+            button.classList.add("active");
         }
     });
 }
 
-// Función para el modal de cambio de contraseña
+// Función para mostrar/ocultar modales
+function toggleModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = modal.style.display === "flex" ? "none" : "flex";
+    }
+}
+
+// Funciones específicas para cada modal
 function togglePasswordModal() {
-    const modal = document.getElementById('password-modal');
-    if (modal.style.display === 'flex') {
-        modal.style.display = 'none';
-    } else {
-        modal.style.display = 'flex';
-    }
+    toggleModal("password-modal");
 }
 
-// Crear el modal de confirmación de casillero
-function createLockerModal() {
-    const modal = document.createElement('div');
-    modal.id = 'locker-modal';
-    modal.className = 'modal';
-    modal.innerHTML = `
-        <div class="modal-content">
-            <span class="close-modal" onclick="toggleLockerModal()">&times;</span>
-            <h2>Confirmar selección</h2>
-            <p>¿Desea seleccionar el casillero <span id="selected-locker-number"></span>?</p>
-            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-                <button onclick="toggleLockerModal()" style="background-color: gray" class="submit-btn">Cancelar</button>
-                <button onclick="confirmLockerSelection()" class="submit-btn">Seleccionar</button>
-            </div>
-        </div>
-    `;
-    document.body.appendChild(modal);
-}
-
-// Crear el modal de éxito
-function createSuccessModal() {
-    const modal = document.createElement('div');
-    modal.id = 'success-modal';
-    modal.className = 'modal';
-    modal.innerHTML = `
-        <div class="modal-content" style="text-align: center;">
-            <h2>¡Selección Exitosa!</h2>
-            <div style="color: var(--primary); font-size: 5rem; margin: 2rem 0;">✓</div>
-            <p>El casillero ha sido asignado satisfactoriamente.</p>
-            <button onclick="toggleSuccessModal()" class="submit-btn" style="margin-top: 2rem;">OK</button>
-        </div>
-    `;
-    document.body.appendChild(modal);
-}
-
-// Crear el modal de no disponible
-function createUnavailableModal() {
-    const modal = document.createElement('div');
-    modal.id = 'unavailable-modal';
-    modal.className = 'modal';
-    modal.innerHTML = `
-        <div class="modal-content" style="text-align: center;">
-            <h2>Plan sin Casillero</h2>
-            <p style="margin: 2rem 0;">Su plan actual no incluye casillero. Debe realizar una solicitud.</p>
-            <button onclick="redirectToSolicitudes()" class="submit-btn">Ir a Solicitudes</button>
-        </div>
-    `;
-    document.body.appendChild(modal);
-}
-
-// Función para mostrar/ocultar el modal de confirmación
 function toggleLockerModal(lockerNumber = null) {
-    const modal = document.getElementById('locker-modal');
-    if (modal.style.display === 'flex') {
-        modal.style.display = 'none';
-    } else {
-        document.getElementById('selected-locker-number').textContent = lockerNumber;
-        modal.style.display = 'flex';
+    const modal = document.getElementById("locker-modal");
+    if (lockerNumber !== null) {
+        document.getElementById("selected-locker-number").textContent = lockerNumber;
     }
+    toggleModal("locker-modal");
 }
 
-// Función para mostrar/ocultar el modal de éxito
 function toggleSuccessModal() {
-    const modal = document.getElementById('success-modal');
-    if (modal.style.display === 'flex') {
-        modal.style.display = 'none';
-    } else {
-        modal.style.display = 'flex';
-    }
+    toggleModal("success-modal");
 }
 
-// Función para mostrar/ocultar el modal de no disponible
 function toggleUnavailableModal() {
-    const modal = document.getElementById('unavailable-modal');
-    if (modal.style.display === 'flex') {
-        modal.style.display = 'none';
-    } else {
-        modal.style.display = 'flex';
-    }
+    toggleModal("unavailable-modal");
 }
 
 // Función para confirmar la selección del casillero
 function confirmLockerSelection() {
-    const lockerNumber = document.getElementById('selected-locker-number').textContent;
+    const lockerNumber = document.getElementById("selected-locker-number").textContent;
+    const numericLockerNumber = parseInt(lockerNumber);
 
-    if (parseInt(lockerNumber) % 2 === 0) {
-        // Caso exitoso (números pares)
+    if (numericLockerNumber % 2 === 0) {
+        // Si es par, mostrar modal de éxito
         toggleLockerModal();
         toggleSuccessModal();
 
         // Actualizar el estado visual del casillero
-        const selectedLocker = document.querySelector(`.locker:nth-child(${lockerNumber})`);
-        selectedLocker.style.backgroundColor = 'var(--primary)';
-
-        // Actualizar el texto de información
-        document.querySelector('.locker_info p').textContent = `${lockerNumber}`;
+        const selectedLocker = document.querySelector(`.locker:nth-child(${numericLockerNumber})`);
+        if (selectedLocker) {
+            selectedLocker.style.backgroundColor = "var(--primary)";
+            selectedLocker.classList.remove("available");
+            document.querySelector(".locker_info p").textContent = `${lockerNumber}`;
+        }
     } else {
-        // Caso no disponible (números impares)
+        // Si es impar, mostrar modal de no disponible
         toggleLockerModal();
         toggleUnavailableModal();
     }
@@ -135,67 +77,145 @@ function confirmLockerSelection() {
 // Función para redirigir a solicitudes
 function redirectToSolicitudes() {
     toggleUnavailableModal();
-    showPanel('solicitudes');
+    showPanel("solicitudes");
 }
 
-// Event listeners iniciales
-document.addEventListener('DOMContentLoaded', () => {
-    // Crear los modales
-    createLockerModal();
-    createSuccessModal();
-    createUnavailableModal();
-
-    // Mostrar el panel inicial
-    showPanel('plan-actual');
-
-    // Configurar el modal de contraseña
-    const passwordModal = document.getElementById('password-modal');
-    passwordModal.style.display = 'none';
-
-    // Configurar la imagen de perfil
-    const profileImage = document.getElementById('profile-image');
-    if (profileImage) {
-        profileImage.style.objectFit = 'cover';
-    }
-
-    // Agregar event listeners a los casilleros disponibles
-    document.querySelectorAll('.locker.available').forEach(locker => {
-        locker.addEventListener('click', () => {
-            toggleLockerModal(locker.textContent);
-        });
-    });
-});
-
 // Event listener para cerrar modales al hacer clic fuera
-window.addEventListener('click', (event) => {
-    const modals = [
-        document.getElementById('password-modal'),
-        document.getElementById('locker-modal'),
-        document.getElementById('success-modal'),
-        document.getElementById('unavailable-modal')
-    ];
+window.addEventListener("click", (event) => {
+    const modals = {
+        "password-modal": togglePasswordModal,
+        "locker-modal": toggleLockerModal,
+        "success-modal": toggleSuccessModal,
+        "unavailable-modal": toggleUnavailableModal
+    };
 
-    modals.forEach(modal => {
+    Object.entries(modals).forEach(([modalId, toggleFunction]) => {
+        const modal = document.getElementById(modalId);
         if (event.target === modal) {
-            modal.style.display = 'none';
+            toggleFunction();
         }
     });
 });
 
 // Event listener para el formulario de cambio de contraseña
-document.getElementById('password-form')?.addEventListener('submit', function(e) {
+document.getElementById("password-form")?.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const currentPassword = document.getElementById('current-password').value;
-    const newPassword = document.getElementById('new-password').value;
-    const confirmPassword = document.getElementById('confirm-password').value;
+    const currentPassword = document.getElementById("current-password").value;
+    const newPassword = document.getElementById("new-password").value;
+    const confirmPassword = document.getElementById("confirm-password").value;
 
     if (newPassword !== confirmPassword) {
-        alert('Las contraseñas nuevas no coinciden');
+        alert("Las contraseñas nuevas no coinciden");
         return;
     }
 
-    alert('Contraseña cambiada exitosamente');
+    alert("Contraseña cambiada exitosamente");
     togglePasswordModal();
     this.reset();
 });
+
+// Event listener para la carga inicial de la página
+document.addEventListener("DOMContentLoaded", () => {
+    // Mostrar panel inicial
+    showPanel("plan-actual");
+
+    // Configurar imagen de perfil
+    const profileImage = document.getElementById("profile-image");
+    if (profileImage) {
+        profileImage.style.objectFit = "cover";
+    }
+
+    // Configurar listeners para casilleros disponibles
+    document.querySelectorAll(".locker.available").forEach(locker => {
+        locker.addEventListener("click", () => {
+            toggleLockerModal(locker.textContent);
+        });
+    });
+
+    // Configurar botones del menú
+    document.querySelectorAll(".menu button").forEach(button => {
+        button.addEventListener("click", () => {
+            const panelId = button.getAttribute("onclick").match(/'([^']+)'/)[1];
+            showPanel(panelId);
+        });
+    });
+
+    // Configurar botones de redirección
+    document.querySelector(".cta-button")?.addEventListener("click", () => {
+        showPanel("planes-disponibles");
+    });
+
+    document.querySelector(".button-aportar")?.addEventListener("click", () => {
+        showPanel("solicitudes");
+    });
+
+    // Configurar todos los botones de cierre de modal
+    document.querySelectorAll(".close-modal").forEach(closeButton => {
+        closeButton.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const modal = closeButton.closest(".modal");
+            if (modal) {
+                modal.style.display = "none";
+            }
+        });
+    });
+
+    // Configurar botones dentro de los modales
+    // Modal de casillero
+    const lockerModal = document.getElementById("locker-modal");
+    if (lockerModal) {
+        // Botón cancelar
+        lockerModal.querySelector(".modal-btn-secondary")?.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleLockerModal();
+        });
+
+        // Botón seleccionar
+        lockerModal.querySelector(".modal-btn-primary")?.addEventListener("click", (e) => {
+            e.stopPropagation();
+            confirmLockerSelection();
+        });
+    }
+
+    // Modal de éxito
+    const successModal = document.getElementById("success-modal");
+    if (successModal) {
+        successModal.querySelector(".modal-btn-primary")?.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleSuccessModal();
+        });
+    }
+
+    // Modal de no disponible
+    const unavailableModal = document.getElementById("unavailable-modal");
+    if (unavailableModal) {
+        unavailableModal.querySelector(".modal-btn-primary")?.addEventListener("click", (e) => {
+            e.stopPropagation();
+            redirectToSolicitudes();
+        });
+    }
+});
+
+// Event listener para cerrar modales al hacer clic fuera
+window.addEventListener("click", (event) => {
+    const modals = {
+        "password-modal": togglePasswordModal,
+        "locker-modal": toggleLockerModal,
+        "success-modal": toggleSuccessModal,
+        "unavailable-modal": toggleUnavailableModal
+    };
+
+    Object.entries(modals).forEach(([modalId, toggleFunction]) => {
+        const modal = document.getElementById(modalId);
+        if (event.target === modal) {
+            toggleFunction();
+        }
+    });
+});
+
+const imageUpdater = new ImageUpdater(
+    "http://localhost:3000/bucket/image/logo_aeis.png",
+    ".logo_aeis"
+);
+imageUpdater.updateImage();
