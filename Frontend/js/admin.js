@@ -1,5 +1,8 @@
 import {ImageUpdater} from "../content/Image.js";
 
+// Función para acceder a la cédula desde la URL
+const cedula = new URLSearchParams(window.location.search);
+
 // Variables globales para tracking
 let currentRequestId = null;
 let activePanel = 'solicitudes-pendientes';
@@ -44,7 +47,7 @@ function closeModal(modalId) {
 }
 
 // Cerrar modales si se hace click fuera del contenido
-window.onclick = function(event) {
+window.onclick = function (event) {
     document.querySelectorAll('.modal').forEach(modal => {
         if (event.target === modal) {
             modal.style.display = 'none';
@@ -164,7 +167,8 @@ function togglePasswordModal() {
 }
 
 // Event Listeners
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+
     // Mostrar el panel inicial y activar su botón
     showPanel('solicitudes-pendientes');
     const initialButton = document.querySelector('.menu button[onclick*="solicitudes-pendientes"]');
@@ -174,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Agregar event listeners a los botones del menú
     document.querySelectorAll('.menu button').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const panelId = this.getAttribute('onclick').match(/'([^']+)'/)[1];
             showPanel(panelId);
         });
@@ -182,14 +186,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Inicializar los event listeners para las imágenes de comprobantes
     document.querySelectorAll('.comprobante-img').forEach(img => {
-        img.addEventListener('click', function() {
+        img.addEventListener('click', function () {
             expandImage(this);
         });
     });
 
     // Inicializar los event listeners para botones de aprobar y rechazar en solicitudes pendientes
     document.querySelectorAll('#solicitudes-pendientes .approve-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             const solicitud = this.closest('.solicitud-details');
             const userName = solicitud.querySelector('.solicitud-name').textContent;
             const requestId = solicitud.dataset.id;
@@ -198,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.querySelectorAll('#solicitudes-pendientes .reject-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             const solicitud = this.closest('.solicitud-details');
             const requestId = solicitud.dataset.id;
             showRejectModal(requestId);
@@ -207,7 +211,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Inicializar los event listeners para botones de aprobar en solicitudes rechazadas
     document.querySelectorAll('#solicitudes-rechazadas .approve-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             const solicitud = this.closest('.solicitud-details');
             const userName = solicitud.querySelector('.solicitud-name').textContent;
             const requestId = solicitud.dataset.id;
@@ -243,6 +247,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (imageModalCloseBtn) {
         imageModalCloseBtn.addEventListener('click', () => closeModal('image-modal'));
     }
+    // Agregar event listener al botón de cambiar foto
+
 });
 
 // Inicializar ImageUpdater si está disponible
