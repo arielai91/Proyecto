@@ -36,7 +36,18 @@ class PerfilRoutes {
       this.validateRequest,
       (req, res) => this.controller.checkIfExists(req, res)
     );
-
+    
+    this.router.post(
+      "/login",
+      [
+        body("field").isIn(["email", "cedula"]),
+        body("value").notEmpty(),
+        body("contraseña").notEmpty(),
+      ],
+      this.validateRequest,
+      (req, res) => this.controller.login(req, res)
+    );
+    
   }
 
   validateRequest(req, res, next) {
