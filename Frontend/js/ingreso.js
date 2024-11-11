@@ -130,8 +130,7 @@ function loginUser() {
             }
         })
         .then((data) => {
-            alert(data.message); // Mostrar el mensaje en pantalla
-            console.log(data);
+            obtainRol(field, credencial);
         })
         .catch((error) => {
             document.querySelector(".unknown-info").textContent = "* " + error.message;
