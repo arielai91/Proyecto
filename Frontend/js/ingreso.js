@@ -82,7 +82,6 @@ function obtainRol(field, credencial) {
 function loginUser() {
     const credencial = document.getElementById("identifier").value;
     let field = "email";
-
     const esCorreoOCedula = (credencial) => {
         const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const regexCedula = /^\d{10}$/;
@@ -102,7 +101,9 @@ function loginUser() {
     } else if (resultado === false) {
         field = "cedula";
     } else {
-        alert("El campo ingresado no es un correo o cédula válidos");
+
+        document.querySelector(".unknown-info").textContent = "* Correo o cédula inválidos";
+        document.querySelector(".login-info").style.display = "block";
         return; // Salir de la función si la credencial no es válida
     }
 
@@ -129,10 +130,12 @@ function loginUser() {
             }
         })
         .then((data) => {
-            obtainRol(field, credencial);
+            alert(data.message); // Mostrar el mensaje en pantalla
+            console.log(data);
         })
         .catch((error) => {
-            alert(error.message);
-            console.error(error);
+            document.querySelector(".unknown-info").textContent = "* " + error.message;
+            document.querySelector(".login-info").style.display = "block";
+
         });
 }
