@@ -4,6 +4,8 @@
     --light: #e9eae4;
     --gray: #3e3c3d;
     --black: #000000;
+    --error: #e07373;
+
 }
 
 * {
@@ -185,6 +187,12 @@ nav a.registro:hover {
     flex-direction: column;
     gap: 1rem;
     margin-top: 1rem;
+}
+
+.login-info {
+    display: none;
+    font-weight: bold;
+    color: var(--error);
 }
 
 .forgot-password {
