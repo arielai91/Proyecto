@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
   ingresoForm.addEventListener("submit", function (e) {
     e.preventDefault();
     // Aquí iría la lógica de autenticación
+    loginUser();
     console.log("Formulario enviado");
   });
 });
@@ -40,3 +41,62 @@ const imageUpdater = new ImageUpdater(
   ".logo_aeis"
 );
 imageUpdater.updateImage();
+
+function loginUser() {
+  const credencial = document.getElementById("identifier").value;
+  let field = "email";
+
+  const esCorreoOCedula = (credencial) => {
+    const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const regexCedula = /^\d{10}$/;
+
+    if (regexCorreo.test(credencial)) {
+      return true;
+    } else if (regexCedula.test(credencial)) {
+      return false;
+    } else {
+      return null;
+    }
+  };
+
+  const resultado = esCorreoOCedula(credencial);
+  if (resultado === true) {
+    field = "email";
+  } else if (resultado === false) {
+    field = "cedula";
+  } else {
+    alert("El campo ingresado no es un correo o cédula válidos");
+    return; // Salir de la función si la credencial no es válida
+  }
+
+  const userData = {
+    field: field,
+    value: credencial,
+    contraseña: document.getElementById("password").value,
+  };
+
+  fetch("http://localhost:3000/perfiles/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userData),
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        return res.json().then((data) => {
+          throw new Error(data.message || "Error en la petición");
+        });
+      }
+    })
+    .then((data) => {
+      alert(data.message); // Mostrar el mensaje en pantalla
+      console.log(data);
+    })
+    .catch((error) => {
+      alert(error.message); // Mostrar el mensaje de error en pantalla
+      console.error(error);
+    });
+}

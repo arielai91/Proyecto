@@ -59,196 +59,30 @@ class PerfilController {
     }
   }
 
-  // Obtener todos los perfiles
-  async getAll(req, res) {
+  async login(req, res) {
+    const { field, value, contraseña } = req.body;
+    const query = {};
+    query[field] = value;
+
     try {
-      const perfiles = await Perfil.find().populate("casillero plan");
-      res.status(200).json(perfiles);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  }
+      const user = await Perfil.findOne(query).select("+contraseña");
 
-  // Obtener un perfil por ID, correo o cédula
-  async get(req, res) {
-    try {
-      const { id, email, cedula } = req.params;
-      let perfil;
-      if (id) {
-        perfil = await Perfil.findById(id).populate("casillero plan");
-      } else if (email) {
-        perfil = await Perfil.findOne({ email }).populate("casillero plan");
-      } else if (cedula) {
-        perfil = await Perfil.findOne({ cedula }).populate("casillero plan");
+      if (!user) {
+        return res.status(404).json({ message: "Usuario no registrado" });
       }
-      if (!perfil) {
-        return res.status(404).json({ message: "Perfil no encontrado" });
-      }
-      res.status(200).json(perfil);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  }
 
-  // Actualizar el plan de un perfil por ID, correo o cédula
-  async updatePlan(req, res) {
-    try {
-      const { id, email, cedula } = req.params;
-      const { planId } = req.body;
+      if (!user.contraseña) {
+        return res
+          .status(500)
+          .json({ message: "Error en el servidor: Contraseña no definida" });
+      }
 
-      let updatedPerfil;
-      if (id) {
-        updatedPerfil = await Perfil.findByIdAndUpdate(
-          id,
-          { plan: planId },
-          { new: true, runValidators: true }
-        ).populate("plan");
-      } else if (email) {
-        updatedPerfil = await Perfil.findOneAndUpdate(
-          { email },
-          { plan: planId },
-          { new: true, runValidators: true }
-        ).populate("plan");
-      } else if (cedula) {
-        updatedPerfil = await Perfil.findOneAndUpdate(
-          { cedula },
-          { plan: planId },
-          { new: true, runValidators: true }
-        ).populate("plan");
+      const isMatch = await bcrypt.compare(contraseña, user.contraseña);
+      if (!isMatch) {
+        return res.status(401).json({ message: "Contraseña incorrecta" });
       }
-      if (!updatedPerfil) {
-        return res.status(404).json({ message: "Perfil no encontrado" });
-      }
-      res.status(200).json(updatedPerfil);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  }
 
-  // Actualizar la contraseña de un perfil por ID, correo o cédula
-  async updateContraseña(req, res) {
-    try {
-      const { id, email, cedula } = req.params;
-      const { contraseña } = req.body;
-
-      // Encriptar la nueva contraseña
-      const hashedPassword = await bcrypt.hash(contraseña, 10);
-
-      let updatedPerfil;
-      if (id) {
-        updatedPerfil = await Perfil.findByIdAndUpdate(
-          id,
-          { contraseña: hashedPassword },
-          { new: true, runValidators: true }
-        );
-      } else if (email) {
-        updatedPerfil = await Perfil.findOneAndUpdate(
-          { email },
-          { contraseña: hashedPassword },
-          { new: true, runValidators: true }
-        );
-      } else if (cedula) {
-        updatedPerfil = await Perfil.findOneAndUpdate(
-          { cedula },
-          { contraseña: hashedPassword },
-          { new: true, runValidators: true }
-        );
-      }
-      if (!updatedPerfil) {
-        return res.status(404).json({ message: "Perfil no encontrado" });
-      }
-      res.status(200).json(updatedPerfil);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  }
-
-  // Actualizar la imagen de un perfil por ID, correo o cédula
-  async updateImagen(req, res) {
-    try {
-      const { id, email, cedula } = req.params;
-      const { imagen } = req.body;
-
-      let updatedPerfil;
-      if (id) {
-        updatedPerfil = await Perfil.findByIdAndUpdate(
-          id,
-          { imagen },
-          { new: true, runValidators: true }
-        );
-      } else if (email) {
-        updatedPerfil = await Perfil.findOneAndUpdate(
-          { email },
-          { imagen },
-          { new: true, runValidators: true }
-        );
-      } else if (cedula) {
-        updatedPerfil = await Perfil.findOneAndUpdate(
-          { cedula },
-          { imagen },
-          { new: true, runValidators: true }
-        );
-      }
-      if (!updatedPerfil) {
-        return res.status(404).json({ message: "Perfil no encontrado" });
-      }
-      res.status(200).json(updatedPerfil);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  }
-
-  // Asignar un casillero a un perfil por ID, correo o cédula
-  async assignCasillero(req, res) {
-    try {
-      const { id, email, cedula } = req.params;
-      const { casilleroId } = req.body;
-
-      let updatedPerfil;
-      if (id) {
-        updatedPerfil = await Perfil.findByIdAndUpdate(
-          id,
-          { casillero: casilleroId },
-          { new: true, runValidators: true }
-        ).populate("casillero");
-      } else if (email) {
-        updatedPerfil = await Perfil.findOneAndUpdate(
-          { email },
-          { casillero: casilleroId },
-          { new: true, runValidators: true }
-        ).populate("casillero");
-      } else if (cedula) {
-        updatedPerfil = await Perfil.findOneAndUpdate(
-          { cedula },
-          { casillero: casilleroId },
-          { new: true, runValidators: true }
-        ).populate("casillero");
-      }
-      if (!updatedPerfil) {
-        return res.status(404).json({ message: "Perfil no encontrado" });
-      }
-      res.status(200).json(updatedPerfil);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  }
-
-  // Eliminar un perfil por ID, correo o cédula
-  async delete(req, res) {
-    try {
-      const { id, email, cedula } = req.params;
-      let deletedPerfil;
-      if (id) {
-        deletedPerfil = await Perfil.findByIdAndDelete(id);
-      } else if (email) {
-        deletedPerfil = await Perfil.findOneAndDelete({ email });
-      } else if (cedula) {
-        deletedPerfil = await Perfil.findOneAndDelete({ cedula });
-      }
-      if (!deletedPerfil) {
-        return res.status(404).json({ message: "Perfil no encontrado" });
-      }
-      res.status(200).json({ message: "Perfil eliminado exitosamente" });
+      res.status(200).json({ message: "Login exitoso" });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
