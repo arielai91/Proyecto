@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 const imageUpdater = new ImageUpdater(
-    "http://18.191.98.8:3000/bucket/image/logo_aeis.png",
+    "https://codebyelaina.com/bucket/image/logo_aeis.png",
     ".logo_aeis"
 );
 imageUpdater.updateImage();
@@ -76,7 +76,7 @@ function loginUser() {
         contraseña: document.getElementById("password").value,
     };
 
-    fetch("http://18.191.98.8:3000/perfiles/login", {
+    fetch("https://codebyelaina.com/perfiles/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
