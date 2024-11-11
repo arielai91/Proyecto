@@ -67,11 +67,37 @@
             <div class="verification-input">
                 <label for="codigo">Código de Verificación:</label>
                 <input type="text" id="codigo" class="code" name="codigo" placeholder="520348" required>
+                <p class="invalid-code">Código de verificación inválido</p>
             </div>
             <button type="submit">Verificar</button>
         </form>
     </div>
 </div>
+
+<!-- Modal de éxito -->
+<div id="success-modal" class="modal success-modal">
+    <div class="modal-content">
+        <h2>Registro exitoso</h2>
+        <div class="success-icon">✓</div>
+        <p>Cuenta registrada exitosamente</p>
+        <button onclick="toggleSuccessModal()" class="modal-btn modal-btn-primary">OK</button>
+    </div>
+</div>
+<footer>
+    <div class="footer-content">
+        <div class="copyright">
+            <span>FusionCode © 2024. Todos los derechos reservados.</span>
+        </div>
+        <div class="address">
+            <span>Dirección</span>
+            <p>Av. Ladrón de Guevara 253, Quito 170517</p>
+        </div>
+        <div class="creators">
+            <span>Created and Designed by:</span>
+            <p>Ariel Amaguaña and José Merchán</p>
+        </div>
+    </div>
+</footer>
 <script type="module" src="../js/registro.js"></script>
 </body>
 </html>
