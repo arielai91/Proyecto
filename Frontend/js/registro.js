@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function verify_code(email, verificationCode) {
-    fetch("http://18.191.98.8:5000/verify_code", {
+    fetch("http://18.191.98.8:8000/verify_code", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -121,7 +121,7 @@ function verify_code(email, verificationCode) {
 }
 
 function send_code(email) {
-    fetch("http://18.191.98.8:5000/send_code", {
+    fetch("http://18.191.98.8:8000/send_code", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
