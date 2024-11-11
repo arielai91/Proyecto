@@ -215,7 +215,7 @@ window.addEventListener("click", (event) => {
 });
 
 const imageUpdater = new ImageUpdater(
-    "http://localhost:3000/bucket/image/logo_aeis.png",
+    "http://18.191.98.8:3000/bucket/image/logo_aeis.png",
     ".logo_aeis"
 );
 imageUpdater.updateImage();
