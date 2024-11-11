@@ -42,10 +42,46 @@ const imageUpdater = new ImageUpdater(
 );
 imageUpdater.updateImage();
 
+function obtainRol(field, credencial) {
+
+    const rolData = {
+        field: field,
+        value: credencial,
+    };
+
+    fetch("http://localhost:3000/perfiles/rol", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(rolData),
+    })
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                return res.json().then((data) => {
+                    throw new Error(data.message || "Error en la petición");
+                });
+            }
+        })
+        .then((data) => {
+            console.log(data);
+            if (data.rol === "Administrador") {
+                window.location.href = `admin.html?cedula=${data.cedula}`;
+            } else if (data.rol === "Cliente") {
+                window.location.href = `usuario.html?cedula=${data.cedula}`;
+            }
+        })
+        .catch((error) => {
+            alert(error.message);
+            console.error(error);
+        });
+}
+
 function loginUser() {
     const credencial = document.getElementById("identifier").value;
     let field = "email";
-
     const esCorreoOCedula = (credencial) => {
         const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const regexCedula = /^\d{10}$/;
@@ -65,6 +101,7 @@ function loginUser() {
     } else if (resultado === false) {
         field = "cedula";
     } else {
+
         document.querySelector(".unknown-info").textContent = "* Correo o cédula inválidos";
         document.querySelector(".login-info").style.display = "block";
         return; // Salir de la función si la credencial no es válida
@@ -99,5 +136,6 @@ function loginUser() {
         .catch((error) => {
             document.querySelector(".unknown-info").textContent = "* " + error.message;
             document.querySelector(".login-info").style.display = "block";
+
         });
 }
