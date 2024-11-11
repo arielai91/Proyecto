@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const cedulaInput = document.getElementById("cedula");
     const termsCheckbox = document.getElementById("terms");
     const validationMessage = document.getElementById("validationMessage");
+    const invalidCodeMessage = document.querySelector(".invalid-code");
 
     registroForm.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -33,15 +34,14 @@ document.addEventListener("DOMContentLoaded", function () {
             errors.push("La cédula debe tener 10 dígitos.");
         }
 
-        //if (!emailInput.value.endsWith("@epn.edu.ec")) {
-        //  errors.push("El correo debe terminar con el dominio @epn.edu.ec.");
-        //}
+        if (!emailInput.value.endsWith("@epn.edu.ec")) {
+            errors.push("El correo debe terminar con el dominio @epn.edu.ec.");
+        }
 
         if (!termsCheckbox.checked) {
             errors.push("Debes aceptar los términos y condiciones.");
         }
 
-        // Verificar si el correo y la cédula ya existen en la base de datos
         const emailExists = await checkIfExists("email", emailInput.value);
         const cedulaExists = await checkIfExists("cedula", cedulaInput.value);
 
@@ -51,10 +51,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (cedulaExists) {
             errors.push("La cédula ya está registrada.");
-        }
-
-        if (!emailInput.value.endsWith("@epn.edu.ec")) {
-            errors.push("El correo debe terminar con el dominio @epn.edu.ec.");
         }
 
         if (errors.length > 0) {
@@ -84,24 +80,18 @@ document.addEventListener("DOMContentLoaded", function () {
     editarCorreoLink.addEventListener("click", function (e) {
         e.preventDefault();
         verificacionModal.classList.remove("active");
+        invalidCodeMessage.style.display = "none";
         emailInput.focus();
     });
 
     verificacionModal.addEventListener("click", function (e) {
         if (e.target === verificacionModal) {
             verificacionModal.classList.remove("active");
+            invalidCodeMessage.style.display = "none";
         }
     });
 });
 
-// Actualizar imagen
-const imageUpdater = new ImageUpdater(
-    "http://localhost:3000/bucket/image/logo_aeis.png",
-    ".logo_aeis"
-);
-imageUpdater.updateImage();
-
-// Función para verificar el código
 function verify_code(email, verificationCode) {
     fetch("http://localhost:5000/verify_code", {
         method: "POST",
@@ -116,9 +106,15 @@ function verify_code(email, verificationCode) {
             if (data.message === "Verification successful!") {
                 registerUser();
                 verificacionModal.style.display = "none";
-                showNotification("Registro exitoso", "success");
+                const successModal = document.getElementById("success-modal");
+                successModal.style.display = "flex";
+                const successButton = successModal.querySelector(".modal-btn-primary");
+                successButton.addEventListener("click", () => {
+                    window.location.href = "ingreso.html";
+                });
             } else {
-                showNotification("Código de verificación inválido.", "error");
+                const invalidCodeMessage = document.querySelector(".invalid-code");
+                invalidCodeMessage.style.display = "block";
             }
         })
         .catch((error) => console.error("Error:", error));
@@ -201,3 +197,9 @@ function showNotification(message, type) {
     // Aquí puedes implementar la lógica para mostrar notificaciones en tu UI
     alert(message); // O reemplazar por una notificación en pantalla
 }
+
+const imageUpdater = new ImageUpdater(
+    "http://localhost:3000/bucket/image/logo_aeis.png",
+    ".logo_aeis"
+);
+imageUpdater.updateImage();
