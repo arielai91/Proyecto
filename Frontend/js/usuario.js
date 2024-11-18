@@ -1,5 +1,11 @@
 import {ImageUpdater} from "../content/Image.js";
 
+const urlParams = new URLSearchParams(window.location.search);
+const cedula = urlParams.get('cedula');
+
+// Now you can use the 'cedula' variable in your code
+console.log('Cedula:', cedula);
+
 // Función para mostrar el panel seleccionado
 function showPanel(panelId) {
     const panels = document.querySelectorAll(".panel");
