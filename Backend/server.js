@@ -6,9 +6,8 @@ const PerfilRoutes = require("./routes/perfilRoutes");
 const CasilleroRoutes = require("./routes/casilleroRoutes");
 const PlanRoutes = require("./routes/planRoutes");
 const UploadRoutes = require("./routes/uploadRoutes");
+const SolicitudesRoutes = require("./routes/solicitudRoutes");
 require("dotenv").config();
-
-const AwsConfig = require("./awsConfig");
 
 class Server {
   constructor() {
@@ -20,6 +19,7 @@ class Server {
     this.casilleroRoutes = CasilleroRoutes;
     this.planRoutes = PlanRoutes;
     this.uploadRoutes = UploadRoutes;
+    this.solicitudRoutes = SolicitudesRoutes;
 
     this.connectToDatabase();
     this.initializeMiddlewares();
@@ -62,6 +62,7 @@ class Server {
     this.app.use("/casilleros", this.casilleroRoutes);
     this.app.use("/planes", this.planRoutes);
     this.app.use("/bucket", this.uploadRoutes);
+    this.app.use("/solicitudes", this.solicitudRoutes);
   }
 
   startServer() {
