@@ -58,6 +58,13 @@ class PerfilRoutes {
             this.validateRequest,
             (req, res) => this.controller.rol(req, res)
         );
+
+        this.router.get(
+            "/usuario/:cedula",
+            [param("cedula").isLength({ min: 10, max: 10 })],
+            this.validateRequest,
+            (req, res) => this.controller.getPerfil(req, res)
+        );
     }
 
     validateRequest(req, res, next) {
