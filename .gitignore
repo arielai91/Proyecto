@@ -82,3 +82,6 @@ public/
 .DS_Store
 .gitignore.env
 .env
+
+__pycache__/
+*.pyc

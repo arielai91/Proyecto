@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 const imageUpdater = new ImageUpdater(
-    "http://localhost:3000/bucket/image/logo_aeis.png",
+    "https://codebyelaina.com/bucket/image/logo_aeis.png",
     ".logo_aeis"
 );
 imageUpdater.updateImage();
@@ -56,7 +56,7 @@ function obtainRol(field, credencial) {
         value: credencial,
     };
 
-    fetch("http://localhost:3000/perfiles/rol", {
+    fetch("https://codebyelaina.com/perfiles/rol", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -120,7 +120,7 @@ function loginUser() {
         contraseña: document.getElementById("password").value,
     };
 
-    fetch("http://localhost:3000/perfiles/login", {
+    fetch("https://codebyelaina.com/perfiles/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

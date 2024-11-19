@@ -253,6 +253,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Inicializar ImageUpdater si está disponible
 if (typeof ImageUpdater !== 'undefined') {
-    const imageUpdater = new ImageUpdater("http://localhost:3000/bucket/image/logo_aeis.png", ".logo_aeis");
+    const imageUpdater = new ImageUpdater("https://codebyelaina.com/bucket/image/logo_aeis.png", ".logo_aeis");
     imageUpdater.updateImage();
 }

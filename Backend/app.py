@@ -69,5 +69,5 @@ def serve_js(path):
 def serve_content(path):
     return send_from_directory(app.static_folder + '/content', path)
 
-if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000)

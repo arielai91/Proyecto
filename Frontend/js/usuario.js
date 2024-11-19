@@ -7,7 +7,7 @@ const cedula = urlParams.get('cedula');
 console.log('Cedula:', cedula);
 
 function getPerfilData(cedula) {
-    fetch(`http://localhost:3000/perfiles/usuario/${cedula}`)
+    fetch(`https://codebyelaina.com/perfiles/usuario/${cedula}`)
         .then(response => response.json())
         .then(data => {
             const {nombreCompleto, email, rol} = data;
@@ -233,8 +233,9 @@ window.addEventListener("click", (event) => {
 });
 
 const imageUpdater = new ImageUpdater(
-    "http://localhost:3000/bucket/image/logo_aeis.png",
+    "https://codebyelaina.com/bucket/image/logo_aeis.png",
     ".logo_aeis"
 );
 imageUpdater.updateImage();
 getPerfilData(cedula);
+

@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function verify_code(email, verificationCode) {
-    fetch("http://localhost:5000/verify_code", {
+    fetch("https://codebyelaina.com/verify_code", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -134,7 +134,7 @@ function verify_code(email, verificationCode) {
 }
 
 function send_code(email) {
-    fetch("http://localhost:5000/send_code", {
+    fetch("https://codebyelaina.com/send_code", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -163,7 +163,7 @@ function registerUser() {
         rol: "Cliente",
     };
 
-    fetch("http://localhost:3000/perfiles/register", {
+    fetch("https://codebyelaina.com/perfiles/register", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -188,7 +188,7 @@ function registerUser() {
 
 async function checkIfExists(field, value) {
     try {
-        const response = await fetch(`http://localhost:3000/perfiles/check`, {
+        const response = await fetch(`https://codebyelaina.com/perfiles/check`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -212,7 +212,7 @@ function showNotification(message, type) {
 }
 
 const imageUpdater = new ImageUpdater(
-    "http://localhost:3000/bucket/image/logo_aeis.png",
+    "https://codebyelaina.com/bucket/image/logo_aeis.png",
     ".logo_aeis"
 );
 imageUpdater.updateImage();
