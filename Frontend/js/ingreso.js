@@ -5,6 +5,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const togglePassword = document.getElementById("togglePassword");
     const passwordInput = document.getElementById("password");
     const ingresoForm = document.getElementById("ingresoForm");
+    const botonInicioElements = document.querySelectorAll('.boton_inicio');
+    botonInicioElements.forEach(element => {
+        element.addEventListener('click', function () {
+            window.location.href = 'index.html';
+        });
+    });
+
 
     // Toggle password visibility
     togglePassword.addEventListener("click", function () {
