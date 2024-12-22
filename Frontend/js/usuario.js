@@ -6,6 +6,18 @@ const cedula = urlParams.get('cedula');
 // Now you can use the 'cedula' variable in your code
 console.log('Cedula:', cedula);
 
+function getPerfilData(cedula) {
+    fetch(`https://codebyelaina.com/perfiles/usuario/${cedula}`)
+        .then(response => response.json())
+        .then(data => {
+            const {nombreCompleto, email, rol} = data;
+            document.getElementById("profile-name").textContent = nombreCompleto;
+            document.getElementById("profile-email").textContent = "Correo: " + email;
+            document.getElementById("profile-id").textContent =  "Cédula: " + cedula;
+        })
+        .catch(error => console.error("Error al obtener información de perfil:", error));
+}
+
 // Función para mostrar el panel seleccionado
 function showPanel(panelId) {
     const panels = document.querySelectorAll(".panel");
@@ -221,7 +233,9 @@ window.addEventListener("click", (event) => {
 });
 
 const imageUpdater = new ImageUpdater(
-    "http://localhost:3000/bucket/image/logo_aeis.png",
+    "https://codebyelaina.com/bucket/image/logo_aeis.png",
     ".logo_aeis"
 );
 imageUpdater.updateImage();
+getPerfilData(cedula);
+

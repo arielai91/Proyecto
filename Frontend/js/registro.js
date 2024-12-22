@@ -13,6 +13,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const termsCheckbox = document.getElementById("terms");
     const validationMessage = document.getElementById("validationMessage");
     const invalidCodeMessage = document.querySelector(".invalid-code");
+    const verificationCodeInput = document.getElementById("codigo");
+    const botonInicioElements = document.querySelectorAll('.boton_inicio');
+
+    botonInicioElements.forEach(element => {
+        element.addEventListener('click', function () {
+            window.location.href = 'index.html';
+        });
+    });
+
 
     registroForm.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -71,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
     verificacionForm.addEventListener("submit", function (e) {
         e.preventDefault();
 
-        const verificationCode = document.getElementById("codigo").value;
+        const verificationCode = verificationCodeInput.value;
         const email = emailInput.value;
 
         verify_code(email, verificationCode);
@@ -81,19 +90,23 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
         verificacionModal.classList.remove("active");
         invalidCodeMessage.style.display = "none";
+        emailInput.value = ""; // Limpiar el texto ingresado
+        emailInput.placeholder = "Ingrese su correo"; // Establecer el placeholder nuevamente
         emailInput.focus();
+        verificationCodeInput.value = ""; // Limpiar el campo de verificación
     });
 
     verificacionModal.addEventListener("click", function (e) {
         if (e.target === verificacionModal) {
             verificacionModal.classList.remove("active");
             invalidCodeMessage.style.display = "none";
+            verificationCodeInput.value = ""; // Limpiar el campo de verificación
         }
     });
 });
 
 function verify_code(email, verificationCode) {
-    fetch("http://localhost:5000/verify_code", {
+    fetch("https://codebyelaina.com/verify_code", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -121,7 +134,7 @@ function verify_code(email, verificationCode) {
 }
 
 function send_code(email) {
-    fetch("http://localhost:5000/send_code", {
+    fetch("https://codebyelaina.com/send_code", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -150,7 +163,7 @@ function registerUser() {
         rol: "Cliente",
     };
 
-    fetch("http://localhost:3000/perfiles/register", {
+    fetch("https://codebyelaina.com/perfiles/register", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -175,7 +188,7 @@ function registerUser() {
 
 async function checkIfExists(field, value) {
     try {
-        const response = await fetch(`http://localhost:3000/perfiles/check`, {
+        const response = await fetch(`https://codebyelaina.com/perfiles/check`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -199,7 +212,7 @@ function showNotification(message, type) {
 }
 
 const imageUpdater = new ImageUpdater(
-    "http://localhost:3000/bucket/image/logo_aeis.png",
+    "https://codebyelaina.com/bucket/image/logo_aeis.png",
     ".logo_aeis"
 );
 imageUpdater.updateImage();

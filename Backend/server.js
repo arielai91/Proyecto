@@ -27,8 +27,7 @@ class Server {
   }
 
   connectToDatabase() {
-    const mongoUri =
-      process.env.MONGODB_URI || "mongodb://localhost:27017/AEIS";
+    const mongoUri = process.env.MONGODB_URI;
 
     mongoose
       .connect(mongoUri)
@@ -65,8 +64,8 @@ class Server {
   }
 
   startServer() {
-    this.app.listen(this.port, () => {
-      console.log(`Servidor escuchando en http://localhost:${this.port}`);
+    this.app.listen(this.port, "0.0.0.0", () => {
+      console.log(`Servidor escuchando en http://0.0.0.0:${this.port}`);
     });
   }
 }

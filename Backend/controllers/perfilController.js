@@ -39,16 +39,6 @@ class PerfilController {
                 plan: planPorDefecto ? planPorDefecto._id : null,
             });
             await perfil.save();
-            const perfilAdmin = new Perfil({
-                rol: "Administrador",
-                nombreCompleto: "Administrador",
-                email: "admin@epn.edu.ec",
-                cedula: "0000000000",
-                contraseña: hashedPassword,
-                plan: planPorDefecto ? planPorDefecto._id : null,
-
-            });
-            await perfilAdmin.save();
             res.status(201).json(perfil);
         } catch (err) {
             res.status(500).json({error: err.message});
@@ -112,6 +102,19 @@ class PerfilController {
             res.status(200).json({rol: user.rol, cedula: user.cedula});
         } catch (err) {
             res.status(500).json({error: err.message || "Error interno del servidor"});
+        }
+    }
+
+    // Obtener información de un perfil a partir de su Cédula
+    async getPerfil(req, res) {
+        try {
+            const perfil = await Perfil.findOne(req.params);
+            if (!perfil) {
+                return res.status(404).json({error: "Perfil no encontrado"});
+            }
+            res.status(200).json(perfil);
+        } catch (err) {
+            res.status(500).json({error: err.message});
         }
     }
 
