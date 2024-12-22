@@ -29,6 +29,7 @@ class AwsConfig {
         },
         serverSideEncryption: "AES256",
       }),
+      limits: { fileSize: 5 * 1024 * 1024 },
     });
   }
 

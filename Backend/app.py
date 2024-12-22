@@ -5,17 +5,22 @@ import os
 from flask import Flask, request, jsonify, send_from_directory
 from flask_mail import Mail, Message
 from flask_cors import CORS
+from flask_wtf.csrf import CSRFProtect
 import random
+import secrets
+import threading
 from dotenv import load_dotenv
 
 # Cargar variables de entorno desde el archivo .env
 load_dotenv()
 
 app = Flask(__name__, static_folder='../Frontend')
-CORS(app)  # Habilitar CORS para todas las rutas
+CORS(app, resources={r"/*": {"origins": "https://codebyelaina.com"}})
 
 # Establecer la clave secreta desde una variable de entorno
 app.secret_key = os.getenv('SECRET_KEY', 'default_secret_key')
+
+csrf = CSRFProtect(app)
 
 # Configuración de Flask-Mail utilizando variables de entorno
 app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
@@ -29,6 +34,10 @@ mail = Mail(app)
 
 verification_codes = {}
 
+def expire_code(email, timeout=300):
+    """Elimina el código de verificación después de `timeout` segundos."""
+    threading.Timer(timeout, lambda: verification_codes.pop(email, None)).start()
+
 @app.route('/')
 def index():
     return send_from_directory(app.static_folder + '/html', 'index.html')
@@ -36,8 +45,9 @@ def index():
 @app.route('/send_code', methods=['POST'])
 def send_code():
     email = request.json['email']
-    verification_code = str(random.randint(100000, 999999))
+    verification_code = str(secrets.randbelow(900000) + 100000)
     verification_codes[email] = verification_code
+    expire_code(email,timeout=300)
     msg = Message('Verification Code', sender=os.getenv('MAIL_USERNAME'), recipients=[email])
     msg.body = f'Your verification code is {verification_code}'
     mail.send(msg)

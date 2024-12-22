@@ -70,4 +70,5 @@ class Server {
   }
 }
 
+// NOSONAR: Esta línea inicializa el servidor y es intencional.
 new Server();

@@ -20,7 +20,7 @@ const perfilSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      match: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+      match: /^[\w.-]+@epn\.edu\.ec$/,
       immutable: true,
     },
     cedula: {
